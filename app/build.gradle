@@ -1,0 +1,147 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin'
+    id 'kotlin-parcelize'
+    id 'androidx.navigation.safeargs.kotlin'
+//    id 'androidx.navigation.safeargs.kotlin'
+}
+
+android {
+    compileSdkVersion = 33
+    buildToolsVersion = "30.0.3"
+
+    defaultConfig {
+        applicationId "com.glaukous"
+        minSdkVersion 23
+        targetSdkVersion 33
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+    buildTypes {
+        debug {
+            buildConfigField "String", "BASE_URL", "\"https://www.example.come/\""
+            buildConfigField "String", "SOCKET_BASE_URL", "\"https://www.example.come/\""
+        }
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                abiFilters "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
+            }
+            buildConfigField "String", "BASE_URL", "\"https://www.example.come/\""
+            buildConfigField "String", "SOCKET_BASE_URL", "\"https://www.example.come\""
+        }
+    }
+
+
+    buildFeatures {
+        dataBinding true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+    namespace 'com.glaukous'
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
+    implementation 'androidx.core:core-ktx:1.9.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'com.google.android.play:core-ktx:1.8.1'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'com.google.mlkit:vision-common:17.3.0'
+    implementation 'com.google.android.gms:play-services-mlkit-barcode-scanning:18.1.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+
+    //Hilt
+    implementation 'com.google.dagger:hilt-android:2.44'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    kapt 'com.google.dagger:hilt-android-compiler:2.44'
+
+    //Hilt View model Lifecycle
+    //implementation 'androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03'
+    kapt 'androidx.hilt:hilt-compiler:1.0.0'
+
+    //lifecycle
+    implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1'
+
+    //DataBinding
+    def life_versions = "1.1.1"
+    implementation "android.arch.lifecycle:extensions:$life_versions"
+    //noinspection LifecycleAnnotationProcessorWithJava8
+    kapt "android.arch.lifecycle:compiler:$life_versions"
+    kapt 'com.android.databinding:compiler:3.2.0-alpha10'
+
+    implementation 'androidx.fragment:fragment-ktx:1.5.5'
+    implementation "androidx.activity:activity-ktx:1.6.1"
+
+    //Kotlin CoRoutines
+    implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4'
+
+    //Retrofit
+    implementation 'com.squareup.retrofit2:retrofit:2.9.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.2'
+    implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2'
+
+    //Picasso
+    implementation group: 'com.squareup.picasso', name: 'picasso', version: '2.71828'
+
+    //Code Picker
+    implementation 'com.hbb20:ccp:2.6.1'
+
+    //Dimensions
+    implementation 'com.intuit.sdp:sdp-android:1.1.0'
+
+    //dataStore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
+
+    //otp
+    implementation 'com.github.rajputmukesh748:MukeshOtpView:1.0.0'
+
+    //Circle Image View
+    implementation 'de.hdodenhof:circleimageview:3.1.0'
+
+    //Sockets
+    implementation 'com.github.nkzawa:socket.io-client:0.6.0'
+
+    //FCM
+    implementation 'com.google.firebase:firebase-messaging-ktx:23.1.1'
+
+    // CameraX library
+    def camerax_version = "1.0.1"
+    implementation "androidx.camera:camera-camera2:$camerax_version"
+    implementation "androidx.camera:camera-lifecycle:$camerax_version"
+    implementation "androidx.camera:camera-view:1.0.0-alpha28"
+
+}
+kapt {
+    correctErrorTypes true
+}

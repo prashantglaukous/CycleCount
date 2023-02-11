@@ -1,0 +1,91 @@
+<resources>
+    <string name="app_name">Cycle Count</string>
+    <string name="session_expired">Session Expired!</string>
+    <string name="ok">OK</string>
+    <string name="home">Home</string>
+    <string name="support">Support</string>
+    <string name="policy">Privacy Policy</string>
+    <string name="terms_condition"><![CDATA[Terms & Conditions]]></string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="don_apos_t_have_an_account_sign_up">Don\'t have an account? Sign Up</string>
+    <string name="forgot_password">Forgot Password?</string>
+    <string name="let_s_sign_you_in">Let’s Sign You In</string>
+    <string name="welcome_back_you_ve_been_missed">Welcome back, you’ve been missed</string>
+    <string name="your_email">"Your Email or Phone number"</string>
+    <string name="password">Password</string>
+    <string name="signin">Sign In</string>
+    <string name="or">OR</string>
+    <string name="profile">Profile</string>
+    <string name="bookings">Bookings</string>
+    <string name="earnings">Earnings</string>
+    <string name="notifications">Notifications</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="logout">Logout</string>
+    <string name="exit_message">Are you sure, You want to exit?</string>
+    <string name="cancel">Cancel</string>
+    <string name="are_your_sure_want_to_logout">Are you sure, You want to Logout?</string>
+    <string name="change_password">Change Password</string>
+    <string name="some_error_occured">Some error occurred!</string>
+    <string name="your_device_offline">You are offline.</string>
+    <string name="enter_password">Please enter password</string>
+    <string name="logged_in_successfully">Logged in successfully.</string>
+    <string name="enter_email_or_phone">Please enter email adress</string>
+    <string name="enter_valid_email_or_password">Please enter valid email address</string>
+
+
+    <string name="camera_permission_required">Camera and Storage permission is required to use this feature.</string>
+    <string name="location_permission_required">Location permission is required to use this feature</string>
+    <string name="storage_permission_required">Storage Permission is required to use this feature</string>
+    <string name="take_image">Take Image</string>
+    <string name="gallery">Gallery</string>
+    <string name="crop_image_activity_no_permissions">Cancelling, required permissions are not granted</string>
+    <string name="you_are_blocked">You have blocked by another user</string>
+    <string name="you_blocked">This user is blocked by you</string>
+    <string name="trimming_progress">Processing</string>
+    <string name="short_seconds">Sec</string>
+    <string name="megabyte">MB</string>
+    <string name="kilobyte">KB</string>
+    <string name="recordVideo">Record Video</string>
+    <string name="unexpected_error">Unexpected error</string>
+    <string name="adjust_range_within_100">Adjust range within 100%</string>
+    <string name="save">Save</string>
+    <string name="sure_delete">Are you sure? You want to delete.</string>
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="see_less">See less</string>
+    <string name="dot_dot_see_more">See More…</string>
+
+
+    <string-array name="number_count_suffix">
+        <item> </item>
+        <item>K</item>
+        <item>M</item>
+        <item>B</item>
+        <item>T</item>
+        <item>P</item>
+        <item>E</item>
+    </string-array>
+
+
+    <string name="some_error_occurred">Some error occurred!</string>
+    <string name="please_wait">Please wait.....</string>
+    <string name="loading">Loading</string>
+    <string name="login">Login</string>
+    <string name="userName">User name</string>
+    <string name="remember_me">Remember me</string>
+    <string name="log_in">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="logo">logo</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="date">Date:</string>
+    <string name="floor">Floor:</string>
+    <string name="accept">Accept</string>
+    <string name="goto_scanner">goto Scanner</string>
+    <string name="require_permission_msg">This application needs to access the camera to process barcodes.</string>
+    <string name="scan_item_code">Scan Item Code</string>
+    <string name="item_code">Item Code:</string>
+    <string name="quantity_counter">Quantity Counter</string>
+    <string name="quantity">Quantity:</string>
+    <string name="done">Done</string>
+</resources>

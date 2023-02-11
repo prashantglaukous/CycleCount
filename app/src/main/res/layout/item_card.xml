@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="model"
+            type="com.glaukous.views.home.ItemCard" />
+    </data>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        app:cardElevation="@dimen/_10sdp"
+        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:layout_marginVertical="@dimen/_5sdp"
+        android:layout_height="wrap_content">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:background="@drawable/outline"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/item_code"
+                style="@style/HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="@string/item_code"
+                android:layout_margin="@dimen/_10sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/item_code_value"
+                style="@style/NormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text="@{model.barcode}"
+                app:layout_constraintBottom_toBottomOf="@+id/item_code"
+                app:layout_constraintStart_toEndOf="@id/item_code"
+                app:layout_constraintTop_toTopOf="@+id/item_code"
+                tools:text="45" />
+
+            <TextView
+                android:id="@+id/quantity"
+                style="@style/HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text="@string/quantity"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_code" />
+
+            <TextView
+                android:id="@+id/tvQuantity"
+                style="@style/NormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.quantity}"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/quantity"
+                app:layout_constraintStart_toEndOf="@id/quantity"
+                app:layout_constraintTop_toTopOf="@id/quantity"
+                tools:text="ItemCode:" />
+
+            <TextView
+                android:id="@+id/date"
+                style="@style/HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text="@string/date"
+                android:layout_marginTop="@dimen/_5sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/quantity" />
+
+            <TextView
+                android:id="@+id/dateValue"
+                style="@style/NormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.date}"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/date"
+                app:layout_constraintStart_toEndOf="@id/date"
+                app:layout_constraintTop_toTopOf="@id/date"
+                tools:text="06/02/2023" />
+
+            <TextView
+                android:id="@+id/floor"
+                style="@style/HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginVertical="@dimen/_5sdp"
+                android:text="@string/floor"
+                app:layout_constraintBottom_toTopOf="@id/view"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date" />
+
+            <TextView
+                android:id="@+id/tvFloorValue"
+                style="@style/NormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@{model.floor}"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                app:layout_constraintBottom_toBottomOf="@id/floor"
+                app:layout_constraintStart_toEndOf="@id/floor"
+                app:layout_constraintTop_toTopOf="@id/floor"
+                tools:text="AX065" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_7sdp"
+                android:background="@color/primary_color"
+                app:layout_constraintTop_toBottomOf="@id/floor"
+                app:layout_constraintBottom_toBottomOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+</layout>

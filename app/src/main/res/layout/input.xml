@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.glaukous.views.input.InputVM" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            tools:context=".views.input.Input">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCycleCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:cardCornerRadius="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/card_bg"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:id="@+id/tvDate"
+                        style="@style/HeadingTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/date"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvDateValue"
+                        style="@style/NormalTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:text="06-02-23"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvDate"
+                        app:layout_constraintStart_toEndOf="@id/tvDate"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvFloor"
+                        style="@style/HeadingTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/floor"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvDate" />
+
+                    <TextView
+                        android:id="@+id/tvFloorValue"
+                        style="@style/NormalTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:text="GF03"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvFloor"
+                        app:layout_constraintStart_toEndOf="@id/tvFloor"
+                        app:layout_constraintTop_toTopOf="@id/tvFloor" />
+
+
+                    <TextView
+                        android:id="@+id/tvBarCode"
+                        style="@style/HeadingTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/item_code"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvFloor" />
+
+                    <TextView
+                        android:id="@+id/tvBarCodeValue"
+                        style="@style/NormalTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:text="@{viewModel.barcode}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvBarCode"
+                        app:layout_constraintStart_toEndOf="@id/tvBarCode"
+                        app:layout_constraintTop_toTopOf="@id/tvBarCode" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardCounter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="@dimen/_15sdp"
+                app:cardCornerRadius="@dimen/_12sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cardCycleCount">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/primary_color"
+                    android:padding="@dimen/_20sdp">
+
+
+                    <TextView
+                        android:id="@+id/tvQuantityHead"
+                        style="@style/HeadingTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/quantity_counter"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/tvQuantity"
+                        style="@style/HeadingTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:fontFamily="@font/inter_extra_bold"
+                        android:padding="10dp"
+                        android:text="@{viewModel.quantity+``}"
+                        android:textColor="@color/white"
+                        android:textSize="50sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        tools:text="01"
+                        app:layout_constraintTop_toBottomOf="@+id/tvQuantityHead" />
+
+                    <ImageView
+                        android:id="@+id/ivMinus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/ic_minus"
+                        android:onClick="@{viewModel::onClick}"
+                        app:layout_constraintEnd_toStartOf="@+id/ivPlus"
+                        app:layout_constraintHorizontal_bias="0.5"
+                        app:layout_constraintStart_toStartOf="@+id/tvQuantity"
+                        app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
+
+                    <ImageView
+                        android:id="@+id/ivPlus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="@dimen/_20sdp"
+                        android:layout_marginTop="15dp"
+                        android:src="@drawable/ic_plus"
+                        android:onClick="@{viewModel::onClick}"
+                        app:layout_constraintEnd_toEndOf="@+id/tvQuantity"
+                        app:layout_constraintStart_toEndOf="@+id/ivMinus"
+                        app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btnCancel"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/red"
+                android:text="@string/cancel"
+                android:onClick="@{viewModel::onClick}"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnDone"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/cardCounter" />
+
+            <Button
+                android:id="@+id/btnDone"
+                style="@style/ButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/done"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:onClick="@{viewModel::onClick}"
+                android:layout_marginTop="@dimen/_15sdp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toEndOf="@+id/btnCancel"
+                app:layout_constraintTop_toBottomOf="@+id/cardCounter" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.core.widget.NestedScrollView>
+</layout>
