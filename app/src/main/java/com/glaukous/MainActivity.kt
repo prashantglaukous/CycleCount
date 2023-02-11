@@ -1,17 +1,11 @@
 package com.glaukous
 
 
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
-import android.hardware.Sensor
-import android.hardware.SensorManager
 import android.media.AudioManager
 import android.os.Bundle
 import android.util.Log
 import android.view.KeyEvent
-import android.view.View
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -175,10 +169,6 @@ class MainActivity : AppCompatActivity(), Navigator {
                 }
             }
 
-//            KeyEvent.KEYCODE_DEMO_APP_3, 305 -> {
-//                Log.e("TAG", "dispatchKeyEvent: Sensor click", )
-//                scanBarcode()
-//            }
 
             else -> {}
         }
@@ -215,18 +205,5 @@ class MainActivity : AppCompatActivity(), Navigator {
         return true
     }
 
-    /*fun scanBarcode() {
-        val intent = Intent("com.panasonic.mobile.barcodereader")
-//        intent.putExtra("SCAN_MODE", "QR_CODE_MODE")
-        result.launch(intent)
-    }
-
-    private val result =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
-//                val contents = it.data!!.getStringExtra("SCAN_RESULT")
-                Log.d("Barcode Result", "$it, ${it.resultCode},${it.data}")
-            }
-        }*/
 
 }
