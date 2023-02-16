@@ -6,13 +6,16 @@ import retrofit2.http.*
 
 interface RetrofitApi {
 
-    @FormUrlEncoded
-    @POST(LOGIN_API)
+//    @FormUrlEncoded
+    @GET(LOGIN_API)
     suspend fun login(
-        @Field("username") username: String?,
-        @Field("password") password: String?,
-        @Field("deviceType") deviceType: String?,
-        @Field("deviceToken") deviceToken: String?
+        @Query("EmailID") userId: String,
+        @Query("Password") password: String
+    ): Response<JsonElement>
+
+    @GET(GetCycleCountByPicker)
+    suspend fun getCycleCountByPicker(
+        @Header("Authorization") auth: String
     ): Response<JsonElement>
 
 }

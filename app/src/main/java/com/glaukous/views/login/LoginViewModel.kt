@@ -1,5 +1,6 @@
 package com.glaukous.views.login
 
+import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -9,11 +10,14 @@ import com.glaukous.R
 import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.datastore.LOGIN_DATA
 import com.glaukous.datastore.USER_CREDS
+import com.glaukous.extensions.jsonElementToData
+import com.glaukous.extensions.jsonStringToData
 import com.glaukous.extensions.showToast
 import com.glaukous.networkcalls.ApiProcessor
 import com.glaukous.networkcalls.Repository
 import com.glaukous.networkcalls.RetrofitApi
 import com.glaukous.pref.PreferenceFile
+import com.glaukous.pref.token
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -49,15 +53,13 @@ class LoginViewModel @Inject constructor(
         when (view.id) {
             R.id.rememberChkBox -> remember.set(!(remember.get() ?: false))
             R.id.loginBtn -> {
-
-                view.findNavController().navigate(LoginDirections.actionLoginToHome())
-                /*verifyCredentials(
+                verifyCredentials(
                     remember = remember.get()!!,
                     userId = userId.get() ?: "",
                     password = passcode.get() ?: ""
                 ) {
-                    login(view = view)
-                }*/
+                    login(view)
+                }
             }
         }
     }
@@ -68,14 +70,29 @@ class LoginViewModel @Inject constructor(
             requestProcessor = object : ApiProcessor<Response<JsonElement>> {
                 override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
                     return retrofitApi.login(
-                        username = userId.get() ?: "",
-                        password = userId.get() ?: "",
-                        deviceType = null,
-                        deviceToken = null
+                        userId = userId.get() ?: "",
+                        password = passcode.get() ?: ""
                     )
                 }
 
                 override fun onResponse(res: Response<JsonElement>) {
+                    Log.e("TAG", "onResponse: ${res.body()}")
+                    if (res.isSuccessful && res.body() != null) {
+                        jsonElementToData<LoginResponse>(
+                            res.body(),
+                        ) { loginData ->
+
+                            Log.e("TAG", "onResponse: ${loginData.data}")
+                            jsonStringToData<LoginData>(loginData.data) {
+                                Log.e("TAG", "onResponse: $it")
+                                dataStoreUtil.saveObject(LOGIN_DATA, it)
+                                it.token?.let { tokenData -> preferencesUtils.storeKey(token, tokenData) }
+                                view.findNavController()
+                                    .navigate(LoginDirections.actionLoginToHome())
+                            }
+                        }
+
+                    }
 
                 }
 
@@ -117,3 +134,5 @@ data class LoginCredentials(
     val password: String,
     val remember: Boolean
 )
+
+

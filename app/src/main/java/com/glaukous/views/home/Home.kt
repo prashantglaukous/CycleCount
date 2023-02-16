@@ -16,7 +16,6 @@ import com.glaukous.MainActivity
 import com.glaukous.MainVM
 import com.glaukous.R
 import com.glaukous.databinding.HomeBinding
-import com.glaukous.extensions.showToast
 import com.glaukous.interfaces.Barcode
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -43,7 +42,6 @@ class Home : Fragment(), Barcode {
         barcode = this
         MainActivity.navigator.showAppBar(show = true)
         viewModel.comingFrom.set(args.comingFrom == "Input")
-        viewModel.isAccepted.set(args.comingFrom == "Input")
         return binding?.root
     }
 
@@ -53,9 +51,7 @@ class Home : Fragment(), Barcode {
         if (barcode.isNotEmpty() && entry / 2 == 0) {
             updateButton()
             Handler(Looper.getMainLooper()).postDelayed({
-                if (findNavController().currentDestination?.id == R.id.home
-                    && viewModel.isAccepted.get() == true
-                ) {
+                if (findNavController().currentDestination?.id == R.id.home) {
                     findNavController().navigate(
                         HomeDirections.actionHomeToInput(
                             barcode = barcode.trim(),
@@ -63,8 +59,6 @@ class Home : Fragment(), Barcode {
                                 barcode.trim().startsWith("NBR")
                                         || barcode.trim().startsWith("IBR")
                             } ?: 1))
-                } else {
-                    "Please Accept the cycle count".showToast()
                 }
 
             }, 200)
@@ -81,13 +75,9 @@ class Home : Fragment(), Barcode {
     override fun navigateToScanner() {
         super.navigateToScanner()
 
-        if (findNavController().currentDestination?.id == R.id.home
-            && viewModel.isAccepted.get() == true
-        ) {
+        if (findNavController().currentDestination?.id == R.id.home) {
             findNavController()
                 .navigate(HomeDirections.actionHomeToScanner(null))
-        } else {
-            "Please Accept the cycle count".showToast()
         }
         Log.e("TAG", "navigateToScanner: MainActivity")
     }

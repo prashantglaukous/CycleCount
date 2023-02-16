@@ -5,23 +5,30 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.findNavController
 import com.glaukous.MainActivity
 import com.glaukous.R
 import com.glaukous.databinding.SplashBinding
+import com.glaukous.views.login.LoginData
 
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class Splash : Fragment(R.layout.splash) {
 
+    private val viewModel by viewModels<SplashVM>()
     var binding: SplashBinding? = null
-
+    private lateinit var loginData: LoginData
+    private var toke = ""
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = SplashBinding.bind(view)
-        MainActivity.navigator.showAppBar(show=false)
+        binding?.viewModel = viewModel
+
+        MainActivity.navigator.showAppBar(show = false)
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -36,8 +43,16 @@ class Splash : Fragment(R.layout.splash) {
                     )
 
                 else -> {
-                    binding?.root?.findNavController()
-                        ?.navigate(SplashDirections.actionSplashToLogin())
+                    viewModel.retrieveData { loginData, token ->
+                        if (loginData != null && token?.isNotBlank() == true) {
+                            binding?.root?.findNavController()
+                                ?.navigate(SplashDirections.actionSplashToHome())
+                        } else {
+                            binding?.root?.findNavController()
+                                ?.navigate(SplashDirections.actionSplashToLogin())
+                        }
+                    }
+
                 }
             }
 

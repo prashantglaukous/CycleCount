@@ -5,7 +5,6 @@ plugins {
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
     id 'androidx.navigation.safeargs.kotlin'
-//    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -27,8 +26,10 @@ android {
     }
     buildTypes {
         debug {
-            buildConfigField "String", "BASE_URL", "\"https://www.example.come/\""
-            buildConfigField "String", "SOCKET_BASE_URL", "\"https://www.example.come/\""
+            debug{
+                buildConfigField "String", "BASE_URL", "\"https://ptl-stageapi.manarsh.com\""
+//            buildConfigField "String", "BASE_URL", "\"http://192.168.1.104:8085\""     /*https://ptl-stageapi.manarsh.com*/
+            }
         }
         release {
             minifyEnabled false
@@ -37,7 +38,7 @@ android {
                 abiFilters "arm64-v8a", "armeabi-v7a", "x86", "x86_64"
             }
             buildConfigField "String", "BASE_URL", "\"https://www.example.come/\""
-            buildConfigField "String", "SOCKET_BASE_URL", "\"https://www.example.come\""
+            /*buildConfigField "String", "SOCKET_BASE_URL", "\"https://www.example.come\""*/
         }
     }
 

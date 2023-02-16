@@ -52,7 +52,7 @@ class SocketHelper {
             options.query = "token=${AppController.auth}"
 //            if(!BuildConfig.DEBUG)
 //            options.path= "/v2/socket.io"
-            socket = IO.socket(BuildConfig.SOCKET_BASE_URL, options)
+//            socket = IO.socket(BuildConfig.SOCKET_BASE_URL, options)
             socketOn()
         }
         socket?.let {
