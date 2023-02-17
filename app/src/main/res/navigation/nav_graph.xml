@@ -71,6 +71,18 @@
             android:name="barcode"
             app:argType="string"
             app:nullable="true" />
+        <argument
+            android:name="floor"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="date"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="cycleCountId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/input"
@@ -91,6 +103,16 @@
         <argument
             android:name="quantity"
             app:argType="integer" />
+        <argument
+            android:name="date"
+            app:argType="string" />
+        <argument
+            android:name="floor"
+            app:argType="string" />
+        <argument
+            android:name="cycleCountId"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
 
 

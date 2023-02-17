@@ -8,6 +8,8 @@ import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.pref.PreferenceFile
 import com.glaukous.pref.token
 import com.glaukous.utils.*
+import com.glaukous.utils.Loader.hideProgress
+import com.glaukous.utils.Loader.showProgress
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.*
@@ -23,6 +25,7 @@ class Repository @Inject constructor(
     private val dataStoreUtil: DataStoreUtil,
     private val preferenceFile: PreferenceFile
 ) {
+    val authToken=preferenceFile.retrieveKey(token) ?: ""
     fun <T> makeCall(
         loader: Boolean,
         requestProcessor: ApiProcessor<Response<T>>,
@@ -43,7 +46,7 @@ class Repository @Inject constructor(
                     return
                 }
                 if (loader) {
-//                    activity.showProgress()
+                    activity.showProgress()
                 }
             }
 
@@ -56,13 +59,13 @@ class Repository @Inject constructor(
             CoroutineScope(Dispatchers.Main).launch {
                 dataResponse.catch { exception ->
                     exception.printStackTrace()
-//                    hideProgress()
+                    hideProgress()
                     activity?.let {
                         activity.showNegativeAlerter(exception.message ?: "")
                     }
                 }.collect { response ->
                     Log.d("resCodeIs", "====${response.code()}")
-//                    hideProgress()
+                    hideProgress()
                     when {
                         response.code() in 100..199 -> {
                             /**Informational*/
@@ -100,7 +103,7 @@ class Repository @Inject constructor(
                         response.code() == 401 -> {
                             /**UnAuthorized*/
                             activity?.let {
-                                activity.sessionExpired(preferenceFile)
+                                activity.sessionExpired(preferenceFile,dataStoreUtil)
                                 requestProcessor.onError("unAuthorized", response.code())
                             }
 

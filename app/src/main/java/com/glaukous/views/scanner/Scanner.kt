@@ -3,7 +3,6 @@ package com.glaukous.views.scanner
 import android.Manifest.permission.CAMERA
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
 import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
-import com.glaukous.MainActivity
 import com.glaukous.R
 import com.glaukous.databinding.ScannerBinding
 import com.glaukous.extensions.showToast
@@ -40,8 +39,10 @@ class Scanner : Fragment() {
 
         binding = ScannerBinding.inflate(layoutInflater, container, false)
         binding?.viewModel = viewModel
+        viewModel.date.set(args.date)
+        viewModel.floor.set(args.floor)
+        viewModel.cycleCountId.set(args.cycleCountId)
         requestPermission()
-
         return binding?.root
     }
 
@@ -73,7 +74,7 @@ class Scanner : Fragment() {
                 .setBackpressureStrategy(ImageAnalysis.STRATEGY_KEEP_ONLY_LATEST)
                 //.setBackpressureStrategy(ImageAnalysis.STRATEGY_BLOCK_PRODUCER)
                 //.setImageQueueDepth(1)
-                .build().also { it ->
+                .build().also {
                     it.setAnalyzer(
                         cameraExecutor,
                         QrCodeAnalyzer(onBarCodeScannerSuccess = { data ->
@@ -88,16 +89,16 @@ class Scanner : Fragment() {
 
                             if (data.isNotEmpty()) {
                                 cameraExecutor.shutdown()
-                                if (args.barcode!=null){
-                                    if (args.barcode.equals(data.trim(),true)){
+                                if (args.barcode != null) {
+                                    if (args.barcode.equals(data.trim(), true)) {
                                         binding?.root?.let { it1 ->
                                             viewModel.navigateToInput(
                                                 it1,
                                                 barcode = data.trim(),
-                                                quantity = quantity+args.quantity
+                                                quantity = quantity + args.quantity
                                             )
                                         }
-                                    }else{
+                                    } else {
                                         "Code doesn't match".showToast()
                                         binding?.root?.let { it1 ->
                                             viewModel.navigateToInput(
@@ -107,14 +108,8 @@ class Scanner : Fragment() {
                                             )
                                         }
                                     }
-                                }else{
-                                    binding?.root?.let { it1 ->
-                                        viewModel.navigateToInput(
-                                            it1,
-                                            barcode = data.trim(),
-                                            quantity = quantity+args.quantity
-                                        )
-                                    }
+                                } else {
+                                    viewModel.verifyItemCode(data.trim(), binding)
                                 }
                             }
                         }, onBarCodeScannerFailed = { exception ->

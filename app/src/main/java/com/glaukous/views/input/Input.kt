@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -41,20 +41,24 @@ class Input : Fragment(), Barcode {
         inputCode = this
         viewModel.barcode.set(args.barcode)
         viewModel.quantity.set(args.quantity)
+        viewModel.date.set(args.date)
+        viewModel.floor.set(args.floor)
+        viewModel.cycleCountId.set(args.cycleCountId)
         return binding?.root
     }
 
 
     private var count = 0
-    private var barCodeData:String=""
+    private var barCodeData: String = ""
     override fun barcode(barcode: String) {
-        if (barcode.isNotEmpty()){
-            this.barCodeData =barcode
+        if (barcode.isNotEmpty()) {
+            this.barCodeData = barcode
         }
         ++count
-        Log.e("Input", "barcode: $count, \n $barCodeData")
         val increasedBy =
-            3.takeIf { barCodeData.trim().startsWith("NBR") || barCodeData.trim().startsWith("IBR") }
+            3.takeIf {
+                barCodeData.trim().startsWith("NBR") || barCodeData.trim().startsWith("IBR")
+            }
                 ?: 1.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0
 
         if (count / 2 == 1) {
@@ -71,7 +75,6 @@ class Input : Fragment(), Barcode {
                 }
 
             } catch (e: Exception) {
-                Log.e("Exception", "barcode: ${e.message}")
             }
         }
     }
@@ -90,7 +93,9 @@ class Input : Fragment(), Barcode {
                 .navigate(
                     InputDirections.actionInputToScanner(
                         barcode = viewModel.barcode.get(),
-                        quantity = viewModel.quantity.get() ?: 0
+                        quantity = viewModel.quantity.get() ?: 0,
+                        floor = args.floor,
+                        date = args.date
                     )
                 )
         }

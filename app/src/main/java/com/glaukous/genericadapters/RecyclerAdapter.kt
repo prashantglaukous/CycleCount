@@ -25,9 +25,8 @@ class RecyclerAdapter<T : AbstractModel>(
     fun delete(index: Int? = null) {
         val customIndex = items.size - 1
         items.removeAt(index ?: customIndex)
-//        notifyItemRemoved(index ?: customIndex)
-//        notifyItemRangeChanged(index ?: customIndex, itemCount)
-        notifyDataSetChanged()
+        notifyItemRemoved(index ?: customIndex)
+        notifyItemRangeChanged(index ?: customIndex, itemCount)
     }
 
     fun deleteAll() {
@@ -71,7 +70,7 @@ class RecyclerAdapter<T : AbstractModel>(
     /**Add Functions*/
     fun insertAt(index: Int? = null, item: T) {
         items.add(index ?: items.size, item)
-        notifyItemInserted(index ?: items.size - 1)
+        notifyItemInserted(index ?: (items.size - 1))
     }
 
     fun append(newItems: List<T>) {

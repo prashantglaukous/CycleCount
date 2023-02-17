@@ -1,6 +1,5 @@
 package com.glaukous.views.login
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -9,15 +8,13 @@ import androidx.navigation.findNavController
 import com.glaukous.R
 import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.datastore.LOGIN_DATA
-import com.glaukous.datastore.USER_CREDS
 import com.glaukous.extensions.jsonElementToData
 import com.glaukous.extensions.jsonStringToData
 import com.glaukous.extensions.showToast
 import com.glaukous.networkcalls.ApiProcessor
 import com.glaukous.networkcalls.Repository
 import com.glaukous.networkcalls.RetrofitApi
-import com.glaukous.pref.PreferenceFile
-import com.glaukous.pref.token
+import com.glaukous.pref.*
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -39,13 +36,9 @@ class LoginViewModel @Inject constructor(
 
 
     init {
-        dataStoreUtil.readObject(USER_CREDS, LoginCredentials::class.java) {
-            if (it != null) {
-                remember.set(it.remember)
-                userId.set(it.userId)
-                passcode.set(it.password)
-            }
-        }
+        remember.set(preferencesUtils.retrieveBoolKey(rememberMe))
+        userId.set(preferencesUtils.retrieveKey(email))
+        passcode.set(preferencesUtils.retrieveKey(password))
     }
 
 
@@ -56,7 +49,7 @@ class LoginViewModel @Inject constructor(
                 verifyCredentials(
                     remember = remember.get()!!,
                     userId = userId.get() ?: "",
-                    password = passcode.get() ?: ""
+                    passCode = passcode.get() ?: ""
                 ) {
                     login(view)
                 }
@@ -76,17 +69,19 @@ class LoginViewModel @Inject constructor(
                 }
 
                 override fun onResponse(res: Response<JsonElement>) {
-                    Log.e("TAG", "onResponse: ${res.body()}")
                     if (res.isSuccessful && res.body() != null) {
                         jsonElementToData<LoginResponse>(
                             res.body(),
                         ) { loginData ->
 
-                            Log.e("TAG", "onResponse: ${loginData.data}")
                             jsonStringToData<LoginData>(loginData.data) {
-                                Log.e("TAG", "onResponse: $it")
                                 dataStoreUtil.saveObject(LOGIN_DATA, it)
-                                it.token?.let { tokenData -> preferencesUtils.storeKey(token, tokenData) }
+                                it.token?.let { tokenData ->
+                                    preferencesUtils.storeKey(
+                                        token,
+                                        "Bearer $tokenData"
+                                    )
+                                }
                                 view.findNavController()
                                     .navigate(LoginDirections.actionLoginToHome())
                             }
@@ -109,16 +104,18 @@ class LoginViewModel @Inject constructor(
     private fun verifyCredentials(
         remember: Boolean,
         userId: String,
-        password: String,
+        passCode: String,
         approve: () -> Unit
     ) {
         val isCredValid = when {
             userId.isEmpty() -> false
-            password.isEmpty() -> false
+            passCode.isEmpty() -> false
             else -> true
         }
         if (remember && isCredValid) {
-            dataStoreUtil.saveObject(USER_CREDS, LoginCredentials(userId, password, remember))
+            preferencesUtils.storeKey(email, userId)
+            preferencesUtils.storeKey(password, passCode)
+            preferencesUtils.storeBoolKey(rememberMe, remember)
         }
         if (isCredValid)
             approve()
@@ -127,12 +124,3 @@ class LoginViewModel @Inject constructor(
 
     }
 }
-
-
-data class LoginCredentials(
-    val userId: String,
-    val password: String,
-    val remember: Boolean
-)
-
-

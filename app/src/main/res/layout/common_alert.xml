@@ -26,16 +26,17 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="100dp"
+                    android:scaleType="centerInside"
                     android:layout_gravity="center_horizontal"
-                    android:src="@drawable/ic_logo" />
+                    android:src="@drawable/logo" />
 
                 <TextView
                     android:id="@+id/tvTerms"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
-                    tools:text="Choose your location to start find the request around you.Choose your location to start find the request around you.Choose your location to start find the request around you.Choose your location to start find the request around you.Choose your location to start find the request around you.Choose your location to start find the request around you."
+                    tools:text="Choose your location to start find the request around you."
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="14sp" />

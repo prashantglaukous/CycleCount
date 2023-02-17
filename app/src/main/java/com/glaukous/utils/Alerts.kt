@@ -13,6 +13,7 @@ import androidx.navigation.findNavController
 import com.glaukous.MainActivity
 import com.glaukous.R
 import com.glaukous.databinding.*
+import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.pref.PreferenceFile
 import com.glaukous.sockethelper.SocketHelper
 
@@ -82,7 +83,7 @@ fun View.showAlertWrap(
 
 /**Session Expired Alert*/
 
-fun Context.sessionExpired(preferenceFile: PreferenceFile) = try {
+fun Context.sessionExpired(preferenceFile: PreferenceFile, dataStoreUtil: DataStoreUtil) = try {
     (this as MainActivity).binding.root.let { view->
         view.showAlertWrap(
             R.layout.common_alert,
@@ -92,10 +93,10 @@ fun Context.sessionExpired(preferenceFile: PreferenceFile) = try {
             binding.tvTerms.text = getString(R.string.session_expired)
             binding.btnConfirm.setOnClickListener {
                 dialog.dismiss()
-                preferenceFile.clearPreference()
+                dataStoreUtil.clearDataStore {  }
                 SocketHelper.getInstance().disconnectSocket()
                 (this as Activity).findNavController(R.id.mainContainer).popBackStack(R.id.navGraph, true)
-                /*this.findNavController(R.id.mainContainer).navigate(R.id.login)*/
+                this.findNavController(R.id.mainContainer).navigate(R.id.login)
             }
         }
     }

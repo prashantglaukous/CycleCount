@@ -20,7 +20,7 @@ class SplashVM @Inject constructor(
 
     fun retrieveData(data: (LoginData?, String?) -> Unit) {
         dataStore.readObject(LOGIN_DATA, LoginData::class.java) {
-            data(it, preferenceFile.retrieveKey(token))
+            data(it, repository.authToken)
         }
     }
 

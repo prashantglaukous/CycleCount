@@ -7,29 +7,30 @@
 
         <variable
             name="model"
-            type="com.glaukous.views.home.ItemCard" />
+            type="com.glaukous.views.home.Items" />
     </data>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        app:cardElevation="@dimen/_10sdp"
-        app:cardCornerRadius="@dimen/_10sdp"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginVertical="@dimen/_5sdp"
-        android:layout_height="wrap_content">
+        app:cardCornerRadius="@dimen/_10sdp"
+        app:cardElevation="@dimen/_10sdp">
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:background="@drawable/outline"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/outline">
 
             <TextView
                 android:id="@+id/item_code"
                 style="@style/HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:text="@string/item_code"
                 android:layout_margin="@dimen/_10sdp"
+                android:text="@string/item_code"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -39,7 +40,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
-                android:text="@{model.barcode}"
+                android:text="@{model.itemBarCode}"
                 app:layout_constraintBottom_toBottomOf="@+id/item_code"
                 app:layout_constraintStart_toEndOf="@id/item_code"
                 app:layout_constraintTop_toTopOf="@+id/item_code"
@@ -50,10 +51,10 @@
                 style="@style/HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginHorizontal="@dimen/_10sdp"
-                android:text="@string/quantity"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/quantity"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/item_code" />
 
@@ -62,8 +63,8 @@
                 style="@style/NormalTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{model.quantity}"
                 android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text="@{model.quantityCount+``}"
                 app:layout_constraintBottom_toBottomOf="@+id/quantity"
                 app:layout_constraintStart_toEndOf="@id/quantity"
                 app:layout_constraintTop_toTopOf="@id/quantity"
@@ -74,10 +75,10 @@
                 style="@style/HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginHorizontal="@dimen/_10sdp"
-                android:text="@string/date"
                 android:layout_marginTop="@dimen/_5sdp"
+                android:text="@string/date"
+                android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/quantity" />
 
@@ -86,22 +87,22 @@
                 style="@style/NormalTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{model.date}"
                 android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="@+id/date"
                 app:layout_constraintStart_toEndOf="@id/date"
                 app:layout_constraintTop_toTopOf="@id/date"
                 tools:text="06/02/2023" />
-
+            <!--@{model.date}-->
             <TextView
                 android:id="@+id/floor"
                 style="@style/HeadingTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
                 android:layout_marginHorizontal="@dimen/_10sdp"
                 android:layout_marginVertical="@dimen/_5sdp"
                 android:text="@string/floor"
+                android:textSize="16sp"
                 app:layout_constraintBottom_toTopOf="@id/view"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/date" />
@@ -111,20 +112,21 @@
                 style="@style/NormalTextStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@{model.floor}"
                 android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text=""
                 app:layout_constraintBottom_toBottomOf="@id/floor"
                 app:layout_constraintStart_toEndOf="@id/floor"
                 app:layout_constraintTop_toTopOf="@id/floor"
                 tools:text="AX065" />
+            <!--@{model.floor}-->
 
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_7sdp"
                 android:background="@color/primary_color"
-                app:layout_constraintTop_toBottomOf="@id/floor"
-                app:layout_constraintBottom_toBottomOf="parent" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/floor" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

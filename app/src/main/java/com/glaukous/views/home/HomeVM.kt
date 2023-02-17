@@ -1,6 +1,5 @@
 package com.glaukous.views.home
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -8,12 +7,16 @@ import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
 import com.glaukous.R
 import com.glaukous.datastore.DataStoreUtil
+import com.glaukous.extensions.jsonElementToData
+import com.glaukous.extensions.jsonStringToData
+import com.glaukous.extensions.showToast
 import com.glaukous.genericadapters.RecyclerAdapter
 import com.glaukous.networkcalls.ApiProcessor
 import com.glaukous.networkcalls.Repository
 import com.glaukous.networkcalls.RetrofitApi
 import com.glaukous.pref.PreferenceFile
-import com.glaukous.pref.token
+import com.glaukous.utils.getUtcToLocalFormat
+import com.glaukous.views.scanner.VerifyItem
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -30,63 +33,111 @@ class HomeVM @Inject constructor(
     private val preferencesUtils: PreferenceFile
 ) : ViewModel() {
 
-    val isAccepted = ObservableField(false)
-    val comingFrom = ObservableField(false)
-    val itemRecyclerView = RecyclerAdapter<ItemCard>(R.layout.item_card)
+    val isDataLoaded = ObservableField(false)
+    val date = ObservableField("")
+    val floor = ObservableField("")
+    val cycleCountId = ObservableField(0)
+    val itemRecyclerView = RecyclerAdapter<Items>(R.layout.item_card)
 
-    init {
-
-        Log.e(TAG, "$TAG: ${preferencesUtils.retrieveKey(token)}")
-        itemRecyclerView.addItems(
-            listOf(
-                ItemCard(
-                    date = "06/02/2023",
-                    floor = "AX062",
-                    barcode = "Item12385",
-                    quantity = "15"
-                ),
-                ItemCard(
-                    date = "06/02/2023",
-                    floor = "AX062",
-                    barcode = "Item12385",
-                    quantity = "15"
-                ),
-                ItemCard(
-                    date = "06/02/2023",
-                    floor = "AX062",
-                    barcode = "Item12385",
-                    quantity = "15"
-                ),
-            )
-        )
-    }
 
     fun onClick(view: View) {
         when (view.id) {
-            R.id.btnAccept -> {
-                getCycleCountByPicker()
-            }
             R.id.floatingButton -> view.findNavController()
-                .navigate(HomeDirections.actionHomeToScanner(null))
+                .navigate(
+                    HomeDirections.actionHomeToScanner(
+                        null,
+                        floor = floor.get(),
+                        date = date.get(),
+                        cycleCountId = cycleCountId.get() ?: 0
+                    )
+                ) /*{
+                view.findNavController().navigate(
+                    HomeDirections.actionHomeToInput(
+                        barcode = "IBR123",
+                        quantity = 3.takeIf {
+                            "IBR123".trim().startsWith("NBR")
+                                    || "IBR123".trim().startsWith("IBR")
+                        } ?: 1,
+                        date = "16-02-2023",
+                        floor = "GF",
+                        cycleCountId = 16
+                    ))
+            }*/
+
         }
     }
 
-    private fun getCycleCountByPicker() = viewModelScope.launch {
+    fun getCycleCountByPicker() = viewModelScope.launch {
         repository.makeCall(loader = true, requestProcessor = object :
             ApiProcessor<Response<JsonElement>> {
             override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
-                return retrofitApi.getCycleCountByPicker(preferencesUtils.retrieveKey(token) ?: "")
+                return retrofitApi.getCycleCountByPicker(
+                    repository.authToken
+                )
             }
 
             override fun onResponse(res: Response<JsonElement>) {
-                Log.e(TAG, "onResponse: $res")
+                if (res.isSuccessful && res.body() != null) {
+                    jsonElementToData<PickerResponse>(res.body()) {
+                        jsonStringToData<PickerItemData>(it.data) { pickerItemData ->
+                            isDataLoaded.set(true)
+                            date.set(pickerItemData.dateOfCreation?.getUtcToLocalFormat())
+                            floor.set(pickerItemData.floor ?: "")
+                            cycleCountId.set(pickerItemData.cycleCountId)
+                            pickerItemData.items?.let { items ->
+                                itemRecyclerView.addItems(
+                                    items
+                                )
+                            }
+                        }
+                    }
+                }
             }
 
             override fun onError(message: String, responseCode: Int) {
                 super.onError(message, responseCode)
-                Log.e(TAG, "onResponse: $message")
+                isDataLoaded.set(false)
             }
         })
     }
 
+    fun verifyItemCode(itemCode: String, view: View?) = viewModelScope.launch {
+        repository.makeCall(
+            loader = true,
+            requestProcessor = object : ApiProcessor<Response<JsonElement>> {
+                override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
+                    return retrofitApi.verifyItem(repository.authToken, itemCode)
+                }
+
+                override fun onResponse(res: Response<JsonElement>) {
+                    if (res.isSuccessful && res.body() != null) {
+                        jsonElementToData<VerifyItem>(res.body()) {
+                            if (it.isVerified == true) {
+                                if (view?.findNavController()?.currentDestination?.id == R.id.home) {
+                                    view.findNavController().navigate(
+                                        HomeDirections.actionHomeToInput(
+                                            barcode = itemCode.trim(),
+                                            quantity = 3.takeIf {
+                                                itemCode.trim().startsWith("NBR")
+                                                        || itemCode.trim().startsWith("IBR")
+                                            } ?: 1,
+                                            date = date.get() ?: "",
+                                            floor = floor.get() ?: "",
+                                            cycleCountId = cycleCountId.get() ?: 0
+                                        ))
+                                }
+                            }
+                            it.successMessage?.showToast()
+                        }
+                    }
+                }
+
+                override fun onError(message: String, responseCode: Int) {
+                    super.onError(message, responseCode)
+                    message.showToast()
+                }
+            })
+    }
+
 }
+

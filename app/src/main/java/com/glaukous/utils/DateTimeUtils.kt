@@ -3,13 +3,17 @@ package com.glaukous.utils
 import android.annotation.SuppressLint
 import android.app.DatePickerDialog
 import android.content.Context
+import android.os.Build
 import android.text.format.DateUtils
+import androidx.annotation.RequiresApi
 import androidx.databinding.ObservableField
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
-val TIME_STAMP= "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-val DD_MM_YYYY= "dd-MM-yyyy"
+val TIME_STAMP = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+val DD_MM_YYYY = "dd-MM-yyyy"
 const val YYYY_MM_DD_FORMAT = "yyyy-MM-dd"
 const val YYYY_MM_DD_HH_MM_FORMAT = "yyyy-MM-dd HH:mm a"
 const val YYYY_MMM_COMMA_DD_FORMAT = "yyyy MMM, dd"
@@ -32,15 +36,25 @@ fun getUtcToLocal(input: String): String {
     return output
 }
 
+fun String.getUtcToLocalFormat(): String {
+    return changeTimeFormat(this.substring(0, this.indexOf(".")), inputFormat = "yyyy-MM-dd'T'HH:mm:ss")
+
+
+}
+
 /**Change Time Format*/
 @SuppressLint("SimpleDateFormat")
-fun changeTimeFormat(input: String, inputFormat:String= TIME_STAMP, outputFormat:String= DD_MM_YYYY ): String {
+fun changeTimeFormat(
+    input: String,
+    inputFormat: String = TIME_STAMP,
+    outputFormat: String = DD_MM_YYYY
+): String {
     var output = ""
     try {
         val simpleDateFormat = SimpleDateFormat(inputFormat)
         val date = simpleDateFormat.parse(input)
         date?.let {
-            output =   SimpleDateFormat(outputFormat) .format(date)
+            output = SimpleDateFormat(outputFormat).format(date)
         }
     } catch (e: Exception) {
         e.printStackTrace()
@@ -49,7 +63,7 @@ fun changeTimeFormat(input: String, inputFormat:String= TIME_STAMP, outputFormat
 }
 
 @SuppressLint("SimpleDateFormat")
-fun getDateFromMillis(milliSec: Long, outputFormat:String= TIME_STAMP): String {
+fun getDateFromMillis(milliSec: Long, outputFormat: String = TIME_STAMP): String {
     var output = ""
     try {
         val simple = SimpleDateFormat(outputFormat)

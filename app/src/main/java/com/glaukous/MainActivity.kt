@@ -138,8 +138,6 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     private var barcodes: String = ""
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        Log.e("TAG", "dispatchKeyEvent: ${event.keyCode}")
-
         when (event.keyCode) {
             KeyEvent.ACTION_DOWN -> if (event.unicodeChar != 0) {
                 barcodes += event.unicodeChar.toChar().takeIf { true } ?: ""

@@ -41,27 +41,23 @@ class Home : Fragment(), Barcode {
         binding?.viewModel = viewModel
         barcode = this
         MainActivity.navigator.showAppBar(show = true)
-        viewModel.comingFrom.set(args.comingFrom == "Input")
+        binding?.swipe?.setOnRefreshListener {
+            viewModel.getCycleCountByPicker()
+            binding?.swipe?.isRefreshing = false
+        }
         return binding?.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.getCycleCountByPicker()
+    }
     private var entry = 0
     override fun barcode(barcode: String) {
         entry++
         if (barcode.isNotEmpty() && entry / 2 == 0) {
             updateButton()
-            Handler(Looper.getMainLooper()).postDelayed({
-                if (findNavController().currentDestination?.id == R.id.home) {
-                    findNavController().navigate(
-                        HomeDirections.actionHomeToInput(
-                            barcode = barcode.trim(),
-                            quantity = 3.takeIf {
-                                barcode.trim().startsWith("NBR")
-                                        || barcode.trim().startsWith("IBR")
-                            } ?: 1))
-                }
-
-            }, 200)
+            viewModel.verifyItemCode(barcode.trim(), binding?.root)
         }
     }
 
@@ -77,8 +73,14 @@ class Home : Fragment(), Barcode {
 
         if (findNavController().currentDestination?.id == R.id.home) {
             findNavController()
-                .navigate(HomeDirections.actionHomeToScanner(null))
+                .navigate(
+                    HomeDirections.actionHomeToScanner(
+                        null,
+                        floor = viewModel.floor.get(),
+                        date = viewModel.date.get(),
+                        cycleCountId = viewModel.cycleCountId.get()?:0
+                    )
+                )
         }
-        Log.e("TAG", "navigateToScanner: MainActivity")
     }
 }

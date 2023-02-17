@@ -54,6 +54,7 @@
     <string name="yes">Yes</string>
     <string name="see_less">See less</string>
     <string name="dot_dot_see_more">See More…</string>
+    <string name="noCycleCount">No cycle count available.</string>
 
 
     <string-array name="number_count_suffix">
