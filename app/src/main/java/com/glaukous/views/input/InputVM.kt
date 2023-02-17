@@ -11,11 +11,8 @@ import com.glaukous.networkcalls.ApiProcessor
 import com.glaukous.networkcalls.Repository
 import com.glaukous.networkcalls.RetrofitApi
 import com.glaukous.pref.PreferenceFile
-import com.glaukous.pref.token
 import com.glaukous.utils.getRequestBody
 import com.google.gson.Gson
-import com.google.gson.JsonObject
-import com.google.gson.JsonParser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import okhttp3.ResponseBody
 import retrofit2.Response
@@ -35,9 +32,6 @@ class InputVM @Inject constructor(
     val quantity = ObservableField(1)
     val floor = ObservableField("")
     val date = ObservableField("")
-
-    init {
-    }
 
     fun onClick(view: View) {
         when (view.id) {
@@ -74,7 +68,8 @@ class InputVM @Inject constructor(
                     return retrofitApi.submitCount(
                         repository.authToken, Gson().toJson(
                             Submit(
-                                cycleCountId = cycleCountId.get(), itemDetails = listOf(
+                                cycleCountId = cycleCountId.get(),
+                                itemDetails = listOf(
                                     ItemDetailsItem(
                                         itemQuantity = quantity.get(),
                                         itemBarcode = barcode.get(),
