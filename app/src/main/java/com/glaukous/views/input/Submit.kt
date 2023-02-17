@@ -2,23 +2,23 @@ package com.glaukous.views.input
 
 import com.google.gson.annotations.SerializedName
 
- class Submit(
+class Submit(
 
-	@field:SerializedName("cycleCountId")
-	val cycleCountId: Int? = null,
+    @field:SerializedName("cycleCountId")
+    val cycleCountId: Int? = null,
 
-	@field:SerializedName("itemDetails")
-	val itemDetails: List<ItemDetailsItem?>? = null
+    @field:SerializedName("itemDetails")
+    val itemDetails: List<ItemDetailsItem?>? = null
 )
 
- class ItemDetailsItem(
+class ItemDetailsItem(
 
-	@field:SerializedName("itemQuantity")
-	val itemQuantity: Int? = null,
+    @field:SerializedName("itemQuantity")
+    val itemQuantity: Int? = null,
 
-	@field:SerializedName("itemBarcode")
-	val itemBarcode: String? = null,
+    @field:SerializedName("itemBarcode")
+    val itemBarcode: String? = null,
 
-	@field:SerializedName("floor")
-	val floor: String? = null
+    @field:SerializedName("floor")
+    val floor: String? = null
 )

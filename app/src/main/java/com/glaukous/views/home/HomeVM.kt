@@ -23,8 +23,6 @@ import kotlinx.coroutines.launch
 import retrofit2.Response
 import javax.inject.Inject
 
-const val TAG = "HomeVM"
-
 @HiltViewModel
 class HomeVM @Inject constructor(
     private val dataStoreUtil: DataStoreUtil,
