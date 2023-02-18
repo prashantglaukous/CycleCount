@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.glaukous.MainActivity
 import com.glaukous.MainVM
 import com.glaukous.R
 import com.glaukous.databinding.InputBinding
@@ -98,6 +99,13 @@ class Input : Fragment(), Barcode {
                         date = args.date
                     )
                 )
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        MainActivity.navigator.apply {
+            showBack(show = true)
         }
     }
 }

@@ -70,7 +70,7 @@
                 app:layout_constraintTop_toTopOf="@id/quantity"
                 tools:text="ItemCode:" />
 
-            <TextView
+          <!--  <TextView
                 android:id="@+id/date"
                 style="@style/HeadingTextStyle"
                 android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
                 app:layout_constraintStart_toEndOf="@id/date"
                 app:layout_constraintTop_toTopOf="@id/date"
                 tools:text="06/02/2023" />
-            <!--@{model.date}-->
+            &lt;!&ndash;@{model.date}&ndash;&gt;
             <TextView
                 android:id="@+id/floor"
                 style="@style/HeadingTextStyle"
@@ -118,15 +118,16 @@
                 app:layout_constraintStart_toEndOf="@id/floor"
                 app:layout_constraintTop_toTopOf="@id/floor"
                 tools:text="AX065" />
-            <!--@{model.floor}-->
+            @{model.floor}-->
 
             <View
                 android:id="@+id/view"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_7sdp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:background="@color/primary_color"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/floor" />
+                app:layout_constraintTop_toBottomOf="@id/quantity" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>

@@ -32,6 +32,7 @@
 
                 <TextView
                     android:id="@+id/tvStatusLoading"
+                    style="@style/HeadingTextStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="12dp"
@@ -63,6 +64,7 @@
                     android:layout_below="@id/tvStatusLoading"
                     android:layout_marginStart="12dp"
                     android:layout_marginTop="5dp"
+                    style="@style/HeadingTextStyle"
                     android:layout_toEndOf="@id/pbWait"
                     android:text="@string/please_wait"
                     android:textColor="@color/black"

@@ -15,6 +15,7 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
+import com.glaukous.MainActivity
 import com.glaukous.R
 import com.glaukous.databinding.ScannerBinding
 import com.glaukous.extensions.showToast
@@ -159,4 +160,11 @@ class Scanner : Fragment() {
 
             }
         }
+
+    override fun onResume() {
+        super.onResume()
+        MainActivity.navigator.apply {
+            showBack(show = true)
+        }
+    }
 }

@@ -37,9 +37,12 @@
                 android:id="@+id/cardCycleCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="@dimen/_10sdp"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:layout_marginVertical="@dimen/_5sdp"
+                app:cardCornerRadius="@dimen/_10sdp"
+                app:cardElevation="@dimen/_10sdp"
                 android:visibility="@{!viewModel.isDataLoaded?View.GONE:View.VISIBLE, default=`visible`}"
-                app:cardCornerRadius="@dimen/_12sdp"
+                android:elevation="@dimen/_20sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -56,7 +59,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/date"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +70,8 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:text="@{viewModel.date}"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
+                        tools:text="02-09-2023"
                         app:layout_constraintBottom_toBottomOf="@id/tvDate"
                         app:layout_constraintStart_toEndOf="@id/tvDate"
                         app:layout_constraintTop_toTopOf="parent" />
@@ -79,7 +83,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="@string/floor"
-                        android:textSize="14sp"
+                        android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvDate" />
 
@@ -90,7 +94,8 @@
                         android:layout_height="wrap_content"
                         android:paddingHorizontal="10dp"
                         android:text="@{viewModel.floor}"
-                        android:textSize="14sp"
+                        android:textSize="16sp"
+                        tools:text="GF"
                         app:layout_constraintBottom_toBottomOf="@id/tvFloor"
                         app:layout_constraintStart_toEndOf="@id/tvFloor"
                         app:layout_constraintTop_toTopOf="@id/tvFloor" />

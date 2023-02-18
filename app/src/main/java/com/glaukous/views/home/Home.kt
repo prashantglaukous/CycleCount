@@ -3,6 +3,8 @@ package com.glaukous.views.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,7 +40,10 @@ class Home : Fragment(), Barcode {
         binding = HomeBinding.inflate(layoutInflater, container, false)
         binding?.viewModel = viewModel
         barcode = this
-        MainActivity.navigator.showAppBar(show = true)
+        MainActivity.navigator.apply {
+            showAppBar(show = true)
+            showBack(show = false)
+        }
         binding?.swipe?.setOnRefreshListener {
             viewModel.getCycleCountByPicker()
             binding?.swipe?.isRefreshing = false
@@ -49,10 +54,14 @@ class Home : Fragment(), Barcode {
     override fun onResume() {
         super.onResume()
         viewModel.getCycleCountByPicker()
+        MainActivity.navigator.apply {
+            showBack(show = false)
+        }
     }
 
     private var entry = 0
     override fun barcode(barcode: String) {
+        Log.e("TAG", "barcode: $barcode", )
         entry++
         if (barcode.isNotEmpty() && entry / 2 == 0) {
             updateButton()
@@ -69,8 +78,8 @@ class Home : Fragment(), Barcode {
 
     override fun navigateToScanner() {
         super.navigateToScanner()
-
-        if (findNavController().currentDestination?.id == R.id.home) {
+        Log.e("TAG", "navigateToScanner: ", )
+        if (findNavController().currentDestination?.id == R.id.home  && mainVM.keyEvent != KeyEvent.KEYCODE_ENTER) {
             findNavController()
                 .navigate(
                     HomeDirections.actionHomeToScanner(

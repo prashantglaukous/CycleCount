@@ -24,6 +24,10 @@ class MainVM @Inject constructor(
     val isHome = ObservableField(false)
     var keyEvent = 0
 
+    init {
+
+    }
+
     fun onClick(view: View) {
 
         when (view.id) {

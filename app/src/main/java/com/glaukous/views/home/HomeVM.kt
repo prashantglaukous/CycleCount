@@ -1,10 +1,13 @@
 package com.glaukous.views.home
 
+import android.view.KeyEvent
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
+import com.glaukous.MainActivity
+import com.glaukous.MainActivity.Companion.context
 import com.glaukous.R
 import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.extensions.jsonElementToData
@@ -40,15 +43,23 @@ class HomeVM @Inject constructor(
 
     fun onClick(view: View) {
         when (view.id) {
-            R.id.floatingButton -> view.findNavController()
-                .navigate(
-                    HomeDirections.actionHomeToScanner(
-                        null,
-                        floor = floor.get(),
-                        date = date.get(),
-                        cycleCountId = cycleCountId.get() ?: 0
-                    )
-                ) /*{
+            R.id.floatingButton -> {
+                if ((context.get() as MainActivity).mainVM.keyEvent == 0) {
+                    view.findNavController()
+                        .navigate(
+                            HomeDirections.actionHomeToScanner(
+                                null,
+                                floor = floor.get(),
+                                date = date.get(),
+                                cycleCountId = cycleCountId.get() ?: 0
+                            )
+                        )
+                }else{
+                    verifyItemCode((context.get() as MainActivity).barcodes.trim(),view)
+                    (context.get() as MainActivity).barcodes=""
+                    (context.get() as MainActivity).mainVM.keyEvent=0
+                }
+            } /*{
                 view.findNavController().navigate(
                     HomeDirections.actionHomeToInput(
                         barcode = "CFCF240814",

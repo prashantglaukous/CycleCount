@@ -27,7 +27,7 @@ import java.lang.ref.WeakReference
 class MainActivity : AppCompatActivity(), Navigator {
 
     lateinit var binding: ActivityMainBinding
-    private val mainVM: MainVM by viewModels()
+    val mainVM: MainVM by viewModels()
 
 
     companion object {
@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity(), Navigator {
     override fun onResume() {
         super.onResume()
         context = WeakReference(this)
+        mainVM.isHome.set(mainVM.navController.currentDestination?.id == R.id.home)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -136,15 +137,29 @@ class MainActivity : AppCompatActivity(), Navigator {
         mainVM.showAppBar.set(show)
     }
 
-    private var barcodes: String = ""
+    override fun showBack(show: Boolean) {
+        mainVM.isHome.set(show)
+    }
+
+    var barcodes: String = ""
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        when (event.keyCode) {
+        Log.e("TAG", "dispatchKeyEvent: ${event.unicodeChar.toChar()},${event.keyCode}")
+        /*if (event.unicodeChar != 0) {
+            Log.e("TAG", "dispatchKeyEvent2: $barcodes", )
+            barcodes += event.unicodeChar.toChar().takeIf { true } ?: ""
+        }*/
+        when (event.action) {
             KeyEvent.ACTION_DOWN -> if (event.unicodeChar != 0) {
+                mainVM.keyEvent = event.keyCode.takeIf { it != 0 } ?: 2
+                Log.e("TAG", "dispatchKeyEvent2: $barcodes")
                 barcodes += event.unicodeChar.toChar().takeIf { true } ?: ""
             }
 
+
             KeyEvent.KEYCODE_ENTER -> {
-                mainVM.keyEvent = event.keyCode
+
+                Log.e("TAG", "dispatchKeyEvent: KEYCODE_ENTER")
+                mainVM.keyEvent = event.keyCode.takeIf { it != 0 } ?: 2
                 when (mainVM.navController.currentDestination?.id) {
                     R.id.home -> {
                         if (barcode != null) {
@@ -178,6 +193,7 @@ class MainActivity : AppCompatActivity(), Navigator {
 
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
+                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
                 when (mainVM.navController.currentDestination?.id) {
                     R.id.home -> barcode?.navigateToScanner()
                     R.id.input -> inputCode?.navigateToScanner()
@@ -189,14 +205,39 @@ class MainActivity : AppCompatActivity(), Navigator {
             }
 
             KeyEvent.KEYCODE_VOLUME_UP -> {
+                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
                 audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI)
             }
 
             KeyEvent.KEYCODE_BACK -> {
+                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
                 if (mainVM.navController.backQueue.size <= 2) {
                     finishAffinity()
                 } else {
                     mainVM.navController.popBackStack()
+                }
+            }
+            KeyEvent.KEYCODE_ENTER -> {
+                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
+                when (mainVM.navController.currentDestination?.id) {
+                    R.id.home -> {
+                        if (barcode != null) {
+                            barcode?.barcode(barcodes.trim())
+                            barcodes = ""
+                        }
+
+                    }
+
+                    R.id.input -> {
+                        if (inputCode != null) {
+                            inputCode?.barcode(barcodes.trim())
+                            barcodes = ""
+                        }
+                    }
+
+                    else -> {
+                        barcodes = ""
+                    }
                 }
             }
         }
