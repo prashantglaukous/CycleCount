@@ -40,7 +40,7 @@ class HomeVM @Inject constructor(
 
     fun onClick(view: View) {
         when (view.id) {
-            R.id.floatingButton -> /*view.findNavController()
+            R.id.floatingButton -> view.findNavController()
                 .navigate(
                     HomeDirections.actionHomeToScanner(
                         null,
@@ -48,7 +48,7 @@ class HomeVM @Inject constructor(
                         date = date.get(),
                         cycleCountId = cycleCountId.get() ?: 0
                     )
-                ) */{
+                ) /*{
                 view.findNavController().navigate(
                     HomeDirections.actionHomeToInput(
                         barcode = "CFCF240814",
@@ -57,7 +57,7 @@ class HomeVM @Inject constructor(
                         floor = "GF",
                         cycleCountId = 16
                     ))
-            }
+            }*/
 
         }
     }
