@@ -40,7 +40,7 @@ class HomeVM @Inject constructor(
 
     fun onClick(view: View) {
         when (view.id) {
-            R.id.floatingButton -> view.findNavController()
+            R.id.floatingButton -> /*view.findNavController()
                 .navigate(
                     HomeDirections.actionHomeToScanner(
                         null,
@@ -48,19 +48,16 @@ class HomeVM @Inject constructor(
                         date = date.get(),
                         cycleCountId = cycleCountId.get() ?: 0
                     )
-                ) /*{
+                ) */{
                 view.findNavController().navigate(
                     HomeDirections.actionHomeToInput(
-                        barcode = "IBR123",
-                        quantity = 3.takeIf {
-                            "IBR123".trim().startsWith("NBR")
-                                    || "IBR123".trim().startsWith("IBR")
-                        } ?: 1,
+                        barcode = "CFCF240814",
+                        quantity = 1000063,
                         date = "16-02-2023",
                         floor = "GF",
                         cycleCountId = 16
                     ))
-            }*/
+            }
 
         }
     }

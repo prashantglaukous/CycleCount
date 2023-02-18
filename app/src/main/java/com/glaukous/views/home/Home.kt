@@ -3,7 +3,6 @@ package com.glaukous.views.home
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.glaukous.MainActivity
 import com.glaukous.MainVM
 import com.glaukous.R
@@ -25,7 +23,7 @@ class Home : Fragment(), Barcode {
     private var binding = _binding
     private val viewModel by viewModels<HomeVM>()
     private val mainVM by activityViewModels<MainVM>()
-    private val args by navArgs<HomeArgs>()
+//    private val args by navArgs<HomeArgs>()
 
 
     companion object {
@@ -52,6 +50,7 @@ class Home : Fragment(), Barcode {
         super.onResume()
         viewModel.getCycleCountByPicker()
     }
+
     private var entry = 0
     override fun barcode(barcode: String) {
         entry++
@@ -78,7 +77,7 @@ class Home : Fragment(), Barcode {
                         null,
                         floor = viewModel.floor.get(),
                         date = viewModel.date.get(),
-                        cycleCountId = viewModel.cycleCountId.get()?:0
+                        cycleCountId = viewModel.cycleCountId.get() ?: 0
                     )
                 )
         }
