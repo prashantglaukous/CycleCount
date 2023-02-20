@@ -52,7 +52,6 @@ class MainVM @Inject constructor(
                             (context.get() as MainActivity).barcodes = ""
                             keyEvent = 0
                         }
-
                     }
 
                     R.id.input -> {

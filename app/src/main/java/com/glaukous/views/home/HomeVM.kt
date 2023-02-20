@@ -95,14 +95,18 @@ class HomeVM @Inject constructor(
                                     items
                                 )
                             }
+
                         }
+//                        it.message?.showToast()
                     }
                 }
+
             }
 
             override fun onError(message: String, responseCode: Int) {
                 super.onError(message, responseCode)
                 isDataLoaded.set(false)
+                message.showToast()
             }
         })
     }

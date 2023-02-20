@@ -96,7 +96,7 @@ fun Context.playAnim(view: View, anim: Int) {
 fun Context.printHashKey() {
     try {
         val info = packageManager.getPackageInfo(
-            "com.baron",
+            "com.cycleCount",
             PackageManager.GET_SIGNATURES
         )
         for (signature in info.signatures) {
@@ -104,7 +104,7 @@ fun Context.printHashKey() {
             md.update(signature.toByteArray())
             Log.e("KeyHash:", encodeToString(md.digest(), DEFAULT))
         }
-    } catch (e: PackageManager.NameNotFoundException) {
+    } catch (_: PackageManager.NameNotFoundException) {
 
     } catch (e: NoSuchAlgorithmException) {
         e.printStackTrace()
