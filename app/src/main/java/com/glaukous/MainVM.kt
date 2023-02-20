@@ -9,6 +9,8 @@ import com.glaukous.MainActivity.Companion.context
 import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.networkcalls.Repository
 import com.glaukous.pref.PreferenceFile
+import com.glaukous.views.home.Home
+import com.glaukous.views.input.Input
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -36,9 +38,38 @@ class MainVM @Inject constructor(
                     (context.get() as MainActivity).finishAffinity()
                 } else {
                     navController.popBackStack()
+                    (context.get() as MainActivity).barcodes = ""
+                    keyEvent = 0
                 }
+            }else{
+                when (navController.currentDestination?.id) {
+                    R.id.home -> {
+                        if (Home.barcode != null) {
+                            Home.barcode?.barcode(
+                                ((context.get() as MainActivity).barcodes.split("\n")
+                                    .first())
+                            )
+                            (context.get() as MainActivity).barcodes = ""
+                            keyEvent = 0
+                        }
 
+                    }
 
+                    R.id.input -> {
+                        if (Input.inputCode != null) {
+                            Input.inputCode?.barcode(
+                                ((context.get() as MainActivity).barcodes.split("\n")
+                                    .first())
+                            )
+                            (context.get() as MainActivity).barcodes = ""
+                            keyEvent = 0
+                        }
+                    }
+
+                    else -> {
+                        (context.get() as MainActivity).barcodes = ""
+                    }
+                }
             }
         }
     }

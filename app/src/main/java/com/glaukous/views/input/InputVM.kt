@@ -4,6 +4,8 @@ import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
 import androidx.navigation.findNavController
+import com.glaukous.MainActivity
+import com.glaukous.MainActivity.Companion.context
 import com.glaukous.R
 import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.extensions.showToast
@@ -35,8 +37,12 @@ class InputVM @Inject constructor(
 
     fun onClick(view: View) {
         when (view.id) {
-            R.id.btnCancel -> view.findNavController()
-                .navigate(InputDirections.actionInputToHome("Input"))
+            R.id.btnCancel -> {
+                (context.get() as MainActivity).barcodes = ""
+                (context.get() as MainActivity).mainVM.keyEvent = 0
+                view.findNavController()
+                    .navigate(InputDirections.actionInputToHome("Input"))
+            }
 
             R.id.ivMinus -> {
                 if (quantity.get()!! > 1 && quantity.get() != null) {
@@ -84,6 +90,8 @@ class InputVM @Inject constructor(
                 override fun onResponse(res: Response<ResponseBody>) {
                     if (res.isSuccessful) {
                         view.findNavController().navigate(InputDirections.actionInputToHome())
+                        (context.get() as MainActivity).barcodes = ""
+                        (context.get() as MainActivity).mainVM.keyEvent = 0
                     }
                     res.body()?.string().let { it?.showToast() }
                 }

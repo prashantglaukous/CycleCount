@@ -143,7 +143,6 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     var barcodes: String = ""
     override fun dispatchKeyEvent(event: KeyEvent): Boolean {
-        Log.e("TAG", "dispatchKeyEvent: ${event.unicodeChar.toChar()},${event.keyCode}")
         /*if (event.unicodeChar != 0) {
             Log.e("TAG", "dispatchKeyEvent2: $barcodes", )
             barcodes += event.unicodeChar.toChar().takeIf { true } ?: ""
@@ -193,7 +192,7 @@ class MainActivity : AppCompatActivity(), Navigator {
 
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
-                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
+                mainVM.keyEvent = keyCode
                 when (mainVM.navController.currentDestination?.id) {
                     R.id.home -> barcode?.navigateToScanner()
                     R.id.input -> inputCode?.navigateToScanner()
@@ -205,12 +204,12 @@ class MainActivity : AppCompatActivity(), Navigator {
             }
 
             KeyEvent.KEYCODE_VOLUME_UP -> {
-                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
+                mainVM.keyEvent = keyCode
                 audioManager.adjustVolume(AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI)
             }
 
             KeyEvent.KEYCODE_BACK -> {
-                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
+                mainVM.keyEvent = keyCode
                 if (mainVM.navController.backQueue.size <= 2) {
                     finishAffinity()
                 } else {
@@ -218,7 +217,7 @@ class MainActivity : AppCompatActivity(), Navigator {
                 }
             }
             KeyEvent.KEYCODE_ENTER -> {
-                mainVM.keyEvent = keyCode.takeIf { it != 0 } ?: 2
+                mainVM.keyEvent = keyCode
                 when (mainVM.navController.currentDestination?.id) {
                     R.id.home -> {
                         if (barcode != null) {
@@ -243,6 +242,4 @@ class MainActivity : AppCompatActivity(), Navigator {
         }
         return true
     }
-
-
 }

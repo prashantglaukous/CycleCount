@@ -56,13 +56,12 @@ class Input : Fragment(), Barcode {
             this.barCodeData = barcode
         }
         ++count
-        val increasedBy =
-            3.takeIf {
+        val increasedBy = 3.takeIf {
                 barCodeData.trim().startsWith("NBR") || barCodeData.trim().startsWith("IBR")
             }
                 ?: 1.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0
 
-        if (count / 2 == 1) {
+//        if (count / 2 == 1) {
             try {
                 if (barCodeData.isNotEmpty() && barCodeData.equals(viewModel.barcode.get(), true)) {
                     updateButton()
@@ -75,9 +74,9 @@ class Input : Fragment(), Barcode {
                     "Code doesn't match".showToast(requireContext())
                 }
 
-            } catch (e: Exception) {
+            } catch (_: Exception) {
             }
-        }
+//        }
     }
 
     private fun updateButton() {
