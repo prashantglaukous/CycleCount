@@ -61,7 +61,7 @@ class Input : Fragment(), Barcode {
             }
                 ?: 1.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0
 
-        if (count / 2 == 1) {
+//        if (count / 2 == 1) {
             try {
                 if (barCodeData.isNotEmpty() && barCodeData.equals(viewModel.barcode.get(), true)) {
                     updateButton()
@@ -75,7 +75,7 @@ class Input : Fragment(), Barcode {
                 }
 
             } catch (e: Exception) {
-            }
+//            }
         }
     }
 
