@@ -4,7 +4,6 @@ package com.glaukous
 import android.content.Context
 import android.media.AudioManager
 import android.os.Bundle
-import android.util.Log
 import android.view.KeyEvent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -151,7 +150,6 @@ class MainActivity : AppCompatActivity(), Navigator {
                             barcode?.barcode(barcodes.trim())
                             barcodes = ""
                         }
-
                     }
 
                     R.id.input -> {
@@ -166,8 +164,6 @@ class MainActivity : AppCompatActivity(), Navigator {
                     }
                 }
             }
-
-
             else -> {}
         }
         return super.dispatchKeyEvent(event)
@@ -202,6 +198,4 @@ class MainActivity : AppCompatActivity(), Navigator {
         }
         return true
     }
-
-
 }
