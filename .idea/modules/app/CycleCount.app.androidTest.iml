@@ -14,8 +14,10 @@
           <stringArguments>
             <stringArg name="classpath">
               <args>
+                <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debugAndroidTest/R.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/e043d81bb940edab61ed51681244cff1/transformed/jetified-aspectjrt-1.7.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/eed97d7ed448b0e12bef38e875ccc012/transformed/jetified-isoparser-1.0.6.jar</arg>
+                <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_app_classes_jar/debug/classes.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/f61a6f4001b8bcbfd8750495cd23bba0/transformed/jetified-junit-1.1.5-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/4f71ce6668b275d79f59689b7b906290/transformed/espresso-core-3.5.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/ada240faeedcc1fe49c7be85c706fed4/transformed/databinding-runtime-7.4.1-api.jar</arg>

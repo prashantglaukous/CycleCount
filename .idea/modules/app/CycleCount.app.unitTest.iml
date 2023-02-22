@@ -17,6 +17,7 @@
                 <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_and_runtime_not_namespaced_r_class_jar/debug/R.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/e043d81bb940edab61ed51681244cff1/transformed/jetified-aspectjrt-1.7.3.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/eed97d7ed448b0e12bef38e875ccc012/transformed/jetified-isoparser-1.0.6.jar</arg>
+                <arg>$MODULE_DIR$/../../../app/build/intermediates/compile_app_classes_jar/debug/classes.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/ada240faeedcc1fe49c7be85c706fed4/transformed/databinding-runtime-7.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/0c8e4cc4b32e43903915928f9778a424/transformed/databinding-adapters-7.4.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.databinding/databinding-common/7.4.1/84ed411631d2c4113f4ad992669fe3f50a83f072/databinding-common-7.4.1.jar</arg>
