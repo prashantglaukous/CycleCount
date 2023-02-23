@@ -11,10 +11,12 @@
     </data>
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cvItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_10sdp"
         android:layout_marginVertical="@dimen/_5sdp"
+        android:onClick="@{(view)-> model.onItemClick.onClick(view,model.viewHolder,model.vpPosition)}"
         app:cardCornerRadius="@dimen/_10sdp"
         app:cardElevation="@dimen/_10sdp">
 
@@ -70,55 +72,55 @@
                 app:layout_constraintTop_toTopOf="@id/quantity"
                 tools:text="ItemCode:" />
 
-          <!--  <TextView
-                android:id="@+id/date"
-                style="@style/HeadingTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_marginTop="@dimen/_5sdp"
-                android:text="@string/date"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/quantity" />
+            <!--  <TextView
+                  android:id="@+id/date"
+                  style="@style/HeadingTextStyle"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginHorizontal="@dimen/_10sdp"
+                  android:layout_marginTop="@dimen/_5sdp"
+                  android:text="@string/date"
+                  android:textSize="16sp"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@id/quantity" />
 
-            <TextView
-                android:id="@+id/dateValue"
-                style="@style/NormalTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="@+id/date"
-                app:layout_constraintStart_toEndOf="@id/date"
-                app:layout_constraintTop_toTopOf="@id/date"
-                tools:text="06/02/2023" />
-            &lt;!&ndash;@{model.date}&ndash;&gt;
-            <TextView
-                android:id="@+id/floor"
-                style="@style/HeadingTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:layout_marginVertical="@dimen/_5sdp"
-                android:text="@string/floor"
-                android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@id/view"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/date" />
+              <TextView
+                  android:id="@+id/dateValue"
+                  style="@style/NormalTextStyle"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginHorizontal="@dimen/_10sdp"
+                  android:text=""
+                  app:layout_constraintBottom_toBottomOf="@+id/date"
+                  app:layout_constraintStart_toEndOf="@id/date"
+                  app:layout_constraintTop_toTopOf="@id/date"
+                  tools:text="06/02/2023" />
+              &lt;!&ndash;@{model.date}&ndash;&gt;
+              <TextView
+                  android:id="@+id/floor"
+                  style="@style/HeadingTextStyle"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginHorizontal="@dimen/_10sdp"
+                  android:layout_marginVertical="@dimen/_5sdp"
+                  android:text="@string/floor"
+                  android:textSize="16sp"
+                  app:layout_constraintBottom_toTopOf="@id/view"
+                  app:layout_constraintStart_toStartOf="parent"
+                  app:layout_constraintTop_toBottomOf="@id/date" />
 
-            <TextView
-                android:id="@+id/tvFloorValue"
-                style="@style/NormalTextStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="@dimen/_10sdp"
-                android:text=""
-                app:layout_constraintBottom_toBottomOf="@id/floor"
-                app:layout_constraintStart_toEndOf="@id/floor"
-                app:layout_constraintTop_toTopOf="@id/floor"
-                tools:text="AX065" />
-            @{model.floor}-->
+              <TextView
+                  android:id="@+id/tvFloorValue"
+                  style="@style/NormalTextStyle"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_marginHorizontal="@dimen/_10sdp"
+                  android:text=""
+                  app:layout_constraintBottom_toBottomOf="@id/floor"
+                  app:layout_constraintStart_toEndOf="@id/floor"
+                  app:layout_constraintTop_toTopOf="@id/floor"
+                  tools:text="AX065" />
+              @{model.floor}-->
 
             <View
                 android:id="@+id/view"

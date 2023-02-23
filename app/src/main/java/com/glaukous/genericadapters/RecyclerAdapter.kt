@@ -111,6 +111,7 @@ class RecyclerAdapter<T : AbstractModel>(
         val model = items[position]
         model.viewHolder = holder
         model.length = itemCount
+        model.vpPosition = position
         onItemClick?.let { model.onItemClick = it }
         holder.bind(model)
     }
@@ -125,6 +126,6 @@ class RecyclerAdapter<T : AbstractModel>(
     }
 
     fun interface OnItemClick {
-        fun onClick(view: View, viewHolder: RecyclerView.ViewHolder?, type: String)
+        fun onClick(view: View, viewHolder: RecyclerView.ViewHolder?, position: Int)
     }
 }

@@ -1,6 +1,6 @@
 package com.glaukous.views.home
 
-import android.view.KeyEvent
+import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -40,6 +40,24 @@ class HomeVM @Inject constructor(
     val cycleCountId = ObservableField(0)
     val itemRecyclerView = RecyclerAdapter<Items>(R.layout.item_card)
 
+    init {
+        itemRecyclerView.setOnItemClick { view, _, position ->
+            when (view.id) {
+                R.id.cvItem -> {
+                    view.findNavController().navigate(
+                        HomeDirections.actionHomeToInput(
+                            barcode = itemRecyclerView.getItemAt(position).itemBarCode ?: "",
+                            quantity = itemRecyclerView.getItemAt(position).quantityCount ?: 1,
+                            date = date.get() ?: "",
+                            floor = floor.get() ?: "",
+                            cycleCountId = cycleCountId.get() ?: 0
+                        )
+                    )
+                }
+            }
+        }
+    }
+
 
     fun onClick(view: View) {
         when (view.id) {
@@ -54,10 +72,10 @@ class HomeVM @Inject constructor(
                                 cycleCountId = cycleCountId.get() ?: 0
                             )
                         )
-                }else{
-                    verifyItemCode((context.get() as MainActivity).barcodes.trim(),view)
-                    (context.get() as MainActivity).barcodes=""
-                    (context.get() as MainActivity).mainVM.keyEvent=0
+                } else {
+                    verifyItemCode((context.get() as MainActivity).barcodes.trim(), view)
+                    (context.get() as MainActivity).barcodes = ""
+                    (context.get() as MainActivity).mainVM.keyEvent = 0
                 }
             } /*{
                 view.findNavController().navigate(
