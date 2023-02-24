@@ -1,6 +1,5 @@
 package com.glaukous.views.home
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -139,13 +138,15 @@ class HomeVM @Inject constructor(
 
                 override fun onResponse(res: Response<JsonElement>) {
                     if (res.isSuccessful && res.body() != null) {
-                        jsonElementToData<VerifyItem>(res.body()) {
-                            if (it.isVerified == true) {
+                        jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
+                            if (verifiedItem.isVerified == true) {
                                 if (view?.findNavController()?.currentDestination?.id == R.id.home) {
                                     view.findNavController().navigate(
                                         HomeDirections.actionHomeToInput(
                                             barcode = itemCode.trim(),
-                                            quantity = 3.takeIf {
+                                            quantity = verifiedItem.completedCount.takeIf {
+                                                (it ?: 0) > 0
+                                            }?:3.takeIf {
                                                 itemCode.trim().startsWith("NBR")
                                                         || itemCode.trim().startsWith("IBR")
                                             } ?: 1,
@@ -155,7 +156,7 @@ class HomeVM @Inject constructor(
                                         ))
                                 }
                             }
-                            it.successMessage?.showToast()
+                            verifiedItem.successMessage?.showToast()
                         }
                     }
                 }

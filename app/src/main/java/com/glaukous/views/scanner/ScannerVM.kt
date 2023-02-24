@@ -1,6 +1,5 @@
 package com.glaukous.views.scanner
 
-import android.util.Log
 import android.view.View
 import androidx.databinding.ObservableField
 import androidx.lifecycle.ViewModel
@@ -14,7 +13,6 @@ import com.glaukous.networkcalls.ApiProcessor
 import com.glaukous.networkcalls.Repository
 import com.glaukous.networkcalls.RetrofitApi
 import com.glaukous.pref.PreferenceFile
-import com.glaukous.pref.token
 import com.google.gson.JsonElement
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -57,12 +55,12 @@ class ScannerVM @Inject constructor(
 
                 override fun onResponse(res: Response<JsonElement>) {
                     if (res.isSuccessful && res.body() != null) {
-                        jsonElementToData<VerifyItem>(res.body()) {
-                            if (it.isVerified == true) {
+                        jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
+                            if (verifiedItem.isVerified == true) {
                                 view?.root?.findNavController()?.navigate(
                                     ScannerDirections.actionScannerToInput(
                                         barcode = itemCode.trim(),
-                                        quantity = 3.takeIf {
+                                        quantity = verifiedItem.completedCount.takeIf { (it ?: 0) > 0 }?:3.takeIf {
                                             itemCode.trim().startsWith("NBR")
                                                     || itemCode.trim().startsWith("IBR")
                                         } ?: 1,
@@ -72,7 +70,7 @@ class ScannerVM @Inject constructor(
                             } else {
                                 view?.root?.findNavController()?.popBackStack()
                             }
-                            it.successMessage?.showToast()
+                            verifiedItem.successMessage?.showToast()
                         }
 
                     }
