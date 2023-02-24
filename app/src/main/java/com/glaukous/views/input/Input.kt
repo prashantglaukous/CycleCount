@@ -3,7 +3,6 @@ package com.glaukous.views.input
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -57,25 +56,25 @@ class Input : Fragment(), Barcode {
         }
         ++count
         val increasedBy = 3.takeIf {
-                barCodeData.trim().startsWith("NBR") || barCodeData.trim().startsWith("IBR")
-            }
-                ?: 1.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0
+            barCodeData.trim().startsWith("NBR") || barCodeData.trim().startsWith("IBR")
+        }
+            ?: 1.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0
 
 //        if (count / 2 == 1) {
-            try {
-                if (barCodeData.isNotEmpty() && barCodeData.equals(viewModel.barcode.get(), true)) {
-                    updateButton()
-                    viewModel.quantity.set(
-                        viewModel.quantity.get()
-                            ?.plus(increasedBy) ?: 0
-                    )
-                } else {
-                    count = 0
-                    "Code doesn't match".showToast(requireContext())
-                }
-
-            } catch (_: Exception) {
+        try {
+            if (barCodeData.isNotEmpty() && barCodeData.equals(viewModel.barcode.get(), true)) {
+                updateButton()
+                viewModel.quantity.set(
+                    viewModel.quantity.get()
+                        ?.plus(increasedBy) ?: 0
+                )
+            } else {
+                count = 0
+                "Code doesn't match".showToast(requireContext())
             }
+
+        } catch (_: Exception) {
+        }
 //        }
     }
 

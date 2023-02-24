@@ -23,8 +23,8 @@ class PickerItemData(
 
     @field:SerializedName("CycleCountStatus")
     val cycleCountStatus: Int? = null
-){
-    val getDate=dateOfCreation?.getUtcToLocalFormat()
+) {
+    val getDate = dateOfCreation?.getUtcToLocalFormat()
 }
 
 class Items(
@@ -39,4 +39,4 @@ class Items(
 
     @field:SerializedName("QuantityCount")
     val quantityCount: Int? = null
-):AbstractModel()
+) : AbstractModel()

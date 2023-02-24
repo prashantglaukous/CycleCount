@@ -17,7 +17,7 @@ class QrCodeAnalyzer(
 
     @SuppressLint("UnsafeOptInUsageError")
     override fun analyze(image: ImageProxy) {
-        Log.e("image",image.imageInfo.timestamp.toString())
+        Log.e("image", image.imageInfo.timestamp.toString())
         val img = image.image
         if (img != null) {
             val inputImage = InputImage.fromMediaImage(img, image.imageInfo.rotationDegrees)
@@ -37,7 +37,7 @@ class QrCodeAnalyzer(
             scanner.process(inputImage)
                 .addOnSuccessListener { barcodes ->
                     for (barcode in barcodes) {
-                        Log.e("barcode","${barcode.displayValue}")
+                        Log.e("barcode", "${barcode.displayValue}")
 //                        val displayValue = barcode.displayValue as String
                         barcode.displayValue?.let { onBarCodeScannerSuccess(it) }
                         // isScanned = true

@@ -60,7 +60,9 @@ class ScannerVM @Inject constructor(
                                 view?.root?.findNavController()?.navigate(
                                     ScannerDirections.actionScannerToInput(
                                         barcode = itemCode.trim(),
-                                        quantity = verifiedItem.completedCount.takeIf { (it ?: 0) > 0 }?:3.takeIf {
+                                        quantity = verifiedItem.completedCount.takeIf {
+                                            (it ?: 0) > 0
+                                        } ?: 3.takeIf {
                                             itemCode.trim().startsWith("NBR")
                                                     || itemCode.trim().startsWith("IBR")
                                         } ?: 1,

@@ -6,7 +6,6 @@ import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.datastore.LOGIN_DATA
 import com.glaukous.networkcalls.Repository
 import com.glaukous.pref.PreferenceFile
-import com.glaukous.pref.token
 import com.glaukous.views.login.LoginData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

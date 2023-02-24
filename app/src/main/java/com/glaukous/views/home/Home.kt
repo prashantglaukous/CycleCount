@@ -61,7 +61,7 @@ class Home : Fragment(), Barcode {
 
     private var entry = 0
     override fun barcode(barcode: String) {
-        Log.e("TAG", "barcode: $barcode", )
+        Log.e("TAG", "barcode: $barcode")
         entry++
         if (barcode.isNotEmpty() && entry / 2 == 0) {
             updateButton()
@@ -78,8 +78,8 @@ class Home : Fragment(), Barcode {
 
     override fun navigateToScanner() {
         super.navigateToScanner()
-        Log.e("TAG", "navigateToScanner: ", )
-        if (findNavController().currentDestination?.id == R.id.home  && mainVM.keyEvent != KeyEvent.KEYCODE_ENTER) {
+        Log.e("TAG", "navigateToScanner: ")
+        if (findNavController().currentDestination?.id == R.id.home && mainVM.keyEvent != KeyEvent.KEYCODE_ENTER) {
             findNavController()
                 .navigate(
                     HomeDirections.actionHomeToScanner(
