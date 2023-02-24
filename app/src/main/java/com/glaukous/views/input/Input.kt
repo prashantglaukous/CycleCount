@@ -19,6 +19,7 @@ import com.glaukous.extensions.showToast
 import com.glaukous.interfaces.Barcode
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class Input : Fragment(), Barcode {
     private var _binding: InputBinding? = null
@@ -26,6 +27,8 @@ class Input : Fragment(), Barcode {
     private val viewModel by viewModels<InputVM>()
     private val args by navArgs<InputArgs>()
     private val mainVM by activityViewModels<MainVM>()
+    /*private val handler = Handler(Looper.getMainLooper())
+    private lateinit var runnable: Runnable*/
 
     companion object {
         var inputCode: Barcode? = null
@@ -44,7 +47,29 @@ class Input : Fragment(), Barcode {
         viewModel.date.set(args.date)
         viewModel.floor.set(args.floor)
         viewModel.cycleCountId.set(args.cycleCountId)
+        decreasePress()
         return binding?.root
+    }
+
+    private fun decreasePress() {
+
+        binding?.ivMinus?.setOnClickListener {
+            if (viewModel.quantity.get()!! > 1 && viewModel.quantity.get() != null) {
+                viewModel.quantity.set(viewModel.quantity.get()!!.minus(1))
+            }
+        }
+        /*
+                binding?.ivMinus?.setOnLongClickListener {
+                    runnable = Runnable {
+                        if ((viewModel.quantity.get() ?: 0) > 1 && viewModel.quantity.get() != null) {
+                            viewModel.quantity.set(viewModel.quantity.get()!!.minus(1))
+                        }
+                        handler.postDelayed(runnable, 100)
+                    }
+                    handler.postDelayed(runnable, 100)
+                    true
+                }
+        */
     }
 
 

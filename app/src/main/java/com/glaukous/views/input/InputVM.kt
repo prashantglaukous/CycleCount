@@ -44,11 +44,11 @@ class InputVM @Inject constructor(
                     .navigate(InputDirections.actionInputToHome("Input"))
             }
 
-            R.id.ivMinus -> {
+            /*R.id.ivMinus -> {
                 if (quantity.get()!! > 1 && quantity.get() != null) {
                     quantity.set(quantity.get()!!.minus(1))
                 }
-            }
+            }*/
 
             R.id.ivPlus -> view.findNavController().navigate(
                 InputDirections.actionInputToScanner(

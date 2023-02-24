@@ -162,12 +162,12 @@
                         android:layout_marginHorizontal="@dimen/_20sdp"
                         android:layout_marginTop="15dp"
                         android:src="@drawable/ic_minus"
-                        android:onClick="@{viewModel::onClick}"
                         app:layout_constraintEnd_toStartOf="@+id/ivPlus"
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="@+id/tvQuantity"
                         app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
-
+<!--
+                        android:onClick="@{viewModel::onClick}"-->
                     <ImageView
                         android:id="@+id/ivPlus"
                         android:layout_width="wrap_content"
