@@ -45,7 +45,7 @@ class ScannerVM @Inject constructor(
 
     }
 
-    fun verifyItemCode(itemCode: String, view: ScannerBinding?) = viewModelScope.launch {
+    fun verifyItemCode(itemCode: String, view: ScannerBinding?,isADifferentCode:Boolean) = viewModelScope.launch {
         repository.makeCall(
             loader = true,
             requestProcessor = object : ApiProcessor<Response<JsonElement>> {
@@ -61,6 +61,7 @@ class ScannerVM @Inject constructor(
                                 view?.root?.findNavController()?.navigate(
                                     ScannerDirections.actionScannerToInput(
                                         barcode = itemCode.trim(),
+                                        isADifferentCode=isADifferentCode,
                                         quantity = verifiedItem.completedCount.takeIf {
                                             (it ?: 0) > 0
                                         } ?: 3.takeIf {

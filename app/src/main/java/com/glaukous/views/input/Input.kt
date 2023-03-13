@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.glaukous.MainActivity
@@ -18,6 +20,7 @@ import com.glaukous.databinding.InputBinding
 import com.glaukous.extensions.showToast
 import com.glaukous.interfaces.Barcode
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -27,6 +30,7 @@ class Input : Fragment(), Barcode {
     private val viewModel by viewModels<InputVM>()
     private val args by navArgs<InputArgs>()
     private val mainVM by activityViewModels<MainVM>()
+    private val hitResult= MutableLiveData<Boolean>()
     /*private val handler = Handler(Looper.getMainLooper())
     private lateinit var runnable: Runnable*/
 
@@ -42,11 +46,28 @@ class Input : Fragment(), Barcode {
         binding = InputBinding.inflate(layoutInflater, container, false)
         binding?.viewModel = viewModel
         inputCode = this
-        viewModel.barcode.set(args.barcode)
-        viewModel.quantity.set(args.quantity)
-        viewModel.date.set(args.date)
-        viewModel.floor.set(args.floor)
-        viewModel.cycleCountId.set(args.cycleCountId)
+        if (!args.isADifferentCode){
+            viewModel.barcode.set(args.barcode)
+            viewModel.quantity.set(args.quantity)
+            viewModel.date.set(args.date)
+            viewModel.floor.set(args.floor)
+            viewModel.cycleCountId.set(args.cycleCountId)
+        }else{
+            hitResult.value=args.isADifferentCode
+        }
+
+        hitResult.observe(viewLifecycleOwner){
+            if (it){
+                viewModel.submitCount(binding?.root!!)
+                if(viewModel.submitted.get()==true){
+                    viewModel.barcode.set(args.barcode)
+                    viewModel.quantity.set(args.quantity)
+                    viewModel.date.set(args.date)
+                    viewModel.floor.set(args.floor)
+                    viewModel.cycleCountId.set(args.cycleCountId)
+                }
+            }
+        }
         decreasePress()
         return binding?.root
     }
@@ -58,18 +79,6 @@ class Input : Fragment(), Barcode {
                 viewModel.quantity.set(viewModel.quantity.get()!!.minus(1))
             }
         }
-        /*
-                binding?.ivMinus?.setOnLongClickListener {
-                    runnable = Runnable {
-                        if ((viewModel.quantity.get() ?: 0) > 1 && viewModel.quantity.get() != null) {
-                            viewModel.quantity.set(viewModel.quantity.get()!!.minus(1))
-                        }
-                        handler.postDelayed(runnable, 100)
-                    }
-                    handler.postDelayed(runnable, 100)
-                    true
-                }
-        */
     }
 
 
@@ -96,6 +105,10 @@ class Input : Fragment(), Barcode {
             } else {
                 count = 0
                 "Code doesn't match".showToast(requireContext())
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.submitCount(binding?.root!!)
+                    viewModel.verifyItemCode(barCodeData.trim(),binding)
+                }
             }
 
         } catch (_: Exception) {

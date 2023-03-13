@@ -1,7 +1,7 @@
 package com.glaukous.networkcalls
 
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
-import com.glaukous.BuildConfig
+//import com.glaukous.BuildConfig
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
