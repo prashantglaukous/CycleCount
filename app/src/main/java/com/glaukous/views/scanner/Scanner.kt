@@ -101,25 +101,11 @@ class Scanner : Fragment() {
                                         }
                                     } else {
                                         "Code doesn't match".showToast()
-                                        viewModel.verifyItemCode(data.trim(), binding,isADifferentCode = true)
-
-                                    /*binding?.root?.let { it1 ->
-                                            viewModel.navigateToInput(
-                                                it1,
-                                                barcode = args.barcode!!.trim(),
-                                                quantity = args.quantity
-                                            )
-                                        }*/
+                                        viewModel.verifyItemCode(args.barcode?:"", view=binding,isADifferentCode = true,
+                                            quantity = args.quantity,newBarCode=data.trim())
                                     }
                                 } else {
-//                                    binding?.root?.let { it1 ->
-//                                        viewModel.navigateToInput(
-//                                            it1,
-//                                            barcode = data.trim(),
-//                                            quantity = quantity
-//                                        )
-//                                    }
-                                    viewModel.verifyItemCode(data.trim(), binding, isADifferentCode=false)
+                                    viewModel.verifyItemCode(data.trim(), "",binding, isADifferentCode=false,args.quantity)
                                 }
                             }
                         }, onBarCodeScannerFailed = { exception ->

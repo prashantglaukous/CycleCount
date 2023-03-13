@@ -8,8 +8,6 @@ import androidx.navigation.findNavController
 import com.glaukous.MainActivity
 import com.glaukous.MainActivity.Companion.context
 import com.glaukous.R
-import com.glaukous.databinding.InputBinding
-import com.glaukous.databinding.ScannerBinding
 import com.glaukous.datastore.DataStoreUtil
 import com.glaukous.extensions.jsonElementToData
 import com.glaukous.extensions.showToast
@@ -18,7 +16,6 @@ import com.glaukous.networkcalls.Repository
 import com.glaukous.networkcalls.RetrofitApi
 import com.glaukous.pref.PreferenceFile
 import com.glaukous.utils.getRequestBody
-import com.glaukous.views.scanner.ScannerDirections
 import com.glaukous.views.scanner.VerifyItem
 import com.google.gson.Gson
 import com.google.gson.JsonElement
@@ -42,7 +39,6 @@ class InputVM @Inject constructor(
     val quantity = ObservableField(1)
     val floor = ObservableField("")
     val date = ObservableField("")
-    val submitted = ObservableField(false)
     private var done = false
 
     fun onClick(view: View) {
@@ -72,12 +68,12 @@ class InputVM @Inject constructor(
 
             R.id.btnDone -> {
                 done = true
-                submitCount(view)
+                submitCount(view, null)
             }
         }
     }
 
-    fun submitCount(view: View) {
+    fun submitCount(view: View, args: InputArgs?) {
         repository.makeCall(
             loader = true,
             requestProcessor = object : ApiProcessor<Response<ResponseBody>> {
@@ -105,7 +101,13 @@ class InputVM @Inject constructor(
                             (context.get() as MainActivity).barcodes = ""
                             (context.get() as MainActivity).mainVM.keyEvent = 0
                         }
-                        submitted.set(true)
+                        if (args!=null){
+                            barcode.set(args.newBarCode)
+                            date.set(args.date)
+                            floor.set(args.floor)
+                            cycleCountId.set(args.cycleCountId)
+                            quantity.set(args.newItemQuantity)
+                        }
                     }
                     res.body()?.string().let { it?.showToast() }
                 }
@@ -117,7 +119,7 @@ class InputVM @Inject constructor(
             })
     }
 
-    fun verifyItemCode(itemCode: String, view: InputBinding?) = viewModelScope.launch {
+    fun verifyItemCode(itemCode: String, view: View) = viewModelScope.launch {
         repository.makeCall(
             loader = true,
             requestProcessor = object : ApiProcessor<Response<JsonElement>> {
@@ -133,7 +135,7 @@ class InputVM @Inject constructor(
                                 barcode.set(itemCode)
                                 quantity.set(verifiedItem.completedCount?.takeIf { it >= 1 } ?: 1)
                             } else {
-                                view?.root?.findNavController()?.popBackStack()
+                                view.findNavController().popBackStack()
                             }
                             verifiedItem.successMessage?.showToast()
                         }
@@ -145,7 +147,7 @@ class InputVM @Inject constructor(
                 override fun onError(message: String, responseCode: Int) {
                     super.onError(message, responseCode)
                     message.showToast()
-                    view?.root?.findNavController()?.popBackStack()
+                    view.findNavController().popBackStack()
                 }
             })
     }

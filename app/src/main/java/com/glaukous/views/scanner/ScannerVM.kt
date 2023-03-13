@@ -27,7 +27,6 @@ class ScannerVM @Inject constructor(
     private val preferencesUtils: PreferenceFile
 ) : ViewModel() {
     val cycleCountId = ObservableField(0)
-
     val date = ObservableField("")
     val floor = ObservableField("")
 
@@ -45,47 +44,60 @@ class ScannerVM @Inject constructor(
 
     }
 
-    fun verifyItemCode(itemCode: String, view: ScannerBinding?,isADifferentCode:Boolean) = viewModelScope.launch {
-        repository.makeCall(
-            loader = true,
-            requestProcessor = object : ApiProcessor<Response<JsonElement>> {
-                override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
-                    return retrofitApi.verifyItem(repository.authToken, itemCode)
-                }
+    fun verifyItemCode(
+        itemCode: String,
+        newBarCode: String,
+        view: ScannerBinding?,
+        isADifferentCode: Boolean,
+        quantity: Int
+    ) =
+        viewModelScope.launch {
+            repository.makeCall(
+                loader = true,
+                requestProcessor = object : ApiProcessor<Response<JsonElement>> {
+                    override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
+                        return retrofitApi.verifyItem(repository.authToken, itemCode)
+                    }
 
-                override fun onResponse(res: Response<JsonElement>) {
-                    if (res.isSuccessful && res.body() != null) {
-                        jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
-                            "This item has ${verifiedItem.completedCount} quantity.".showToast()
-                            if (verifiedItem.isVerified == true) {
-                                view?.root?.findNavController()?.navigate(
-                                    ScannerDirections.actionScannerToInput(
-                                        barcode = itemCode.trim(),
-                                        isADifferentCode=isADifferentCode,
-                                        quantity = verifiedItem.completedCount.takeIf {
-                                            (it ?: 0) > 0
-                                        } ?: 3.takeIf {
-                                            itemCode.trim().startsWith("NBR")
-                                                    || itemCode.trim().startsWith("IBR")
-                                        } ?: 1,
-                                        floor = floor.get() ?: "",
-                                        date = date.get() ?: "",
-                                        cycleCountId = cycleCountId.get() ?: 0))
-                            } else {
-                                view?.root?.findNavController()?.popBackStack()
+                    override fun onResponse(res: Response<JsonElement>) {
+                        if (res.isSuccessful && res.body() != null) {
+                            jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
+                                if (verifiedItem.isVerified == true) {
+                                    view?.root?.findNavController()?.navigate(
+                                        ScannerDirections.actionScannerToInput(
+                                            newBarCode = newBarCode,
+                                            barcode = itemCode.trim(),
+                                            isADifferentCode = isADifferentCode,
+                                            quantity = quantity.takeIf { it > 0 } ?: verifiedItem.completedCount.takeIf {
+                                                (it ?: 0) > 0
+                                            } ?: 3.takeIf {
+                                                itemCode.trim().startsWith("NBR")
+                                                        || itemCode.trim().startsWith("IBR")
+                                            } ?: 1,
+                                            newItemQuantity = verifiedItem.completedCount.takeIf {
+                                                (it ?: 0) > 0
+                                            } ?: 3.takeIf {
+                                                itemCode.trim().startsWith("NBR")
+                                                        || itemCode.trim().startsWith("IBR")
+                                            } ?: 1,
+                                            floor = floor.get() ?: "",
+                                            date = date.get() ?: "",
+                                            cycleCountId = cycleCountId.get() ?: 0))
+                                } else {
+                                    view?.root?.findNavController()?.popBackStack()
+                                }
+//                                verifiedItem.successMessage?.showToast()
                             }
-                            verifiedItem.successMessage?.showToast()
+
                         }
 
                     }
 
-                }
-
-                override fun onError(message: String, responseCode: Int) {
-                    super.onError(message, responseCode)
-                    message.showToast()
-                    view?.root?.findNavController()?.popBackStack()
-                }
-            })
-    }
+                    override fun onError(message: String, responseCode: Int) {
+                        super.onError(message, responseCode)
+                        message.showToast()
+                        view?.root?.findNavController()?.popBackStack()
+                    }
+                })
+        }
 }

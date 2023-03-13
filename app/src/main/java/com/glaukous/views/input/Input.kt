@@ -53,19 +53,17 @@ class Input : Fragment(), Barcode {
             viewModel.floor.set(args.floor)
             viewModel.cycleCountId.set(args.cycleCountId)
         }else{
+
             hitResult.value=args.isADifferentCode
         }
 
         hitResult.observe(viewLifecycleOwner){
             if (it){
-                viewModel.submitCount(binding?.root!!)
-                if(viewModel.submitted.get()==true){
-                    viewModel.barcode.set(args.barcode)
-                    viewModel.quantity.set(args.quantity)
-                    viewModel.date.set(args.date)
-                    viewModel.floor.set(args.floor)
-                    viewModel.cycleCountId.set(args.cycleCountId)
-                }
+                viewModel.quantity.set(args.quantity)
+                viewModel.cycleCountId.set(args.cycleCountId)
+                viewModel.barcode.set(args.barcode)
+                viewModel.floor.set(args.floor)
+                viewModel.submitCount(binding?.root!!, args)
             }
         }
         decreasePress()
@@ -106,8 +104,8 @@ class Input : Fragment(), Barcode {
                 count = 0
                 "Code doesn't match".showToast(requireContext())
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.submitCount(binding?.root!!)
-                    viewModel.verifyItemCode(barCodeData.trim(),binding)
+                    viewModel.submitCount(binding?.root!!, args)
+                    viewModel.verifyItemCode(barCodeData.trim(),binding?.root!!)
                 }
             }
 
@@ -132,7 +130,8 @@ class Input : Fragment(), Barcode {
                         barcode = viewModel.barcode.get(),
                         quantity = viewModel.quantity.get() ?: 0,
                         floor = args.floor,
-                        date = args.date
+                        date = args.date,
+                        cycleCountId = args.cycleCountId
                     )
                 )
         }
