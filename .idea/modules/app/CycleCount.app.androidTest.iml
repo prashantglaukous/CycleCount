@@ -174,8 +174,8 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/29ca2dc9f918f1d7ffe3fd95fc6a0e77/transformed/jetified-startup-runtime-1.1.1-api.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/53e9f8227ded25be7ccad3d4d46d02f1/transformed/jetified-error_prone_annotations-2.9.0.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/ec759a1ba28abffe83c8150cafe63d95/transformed/jetified-firebase-annotations-16.1.0.jar</arg>
-                <arg>C:/AndroidResource/Sdk/platforms/android-UpsideDownCake/android.jar</arg>
-                <arg>C:/AndroidResource/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
+                <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-UpsideDownCake/android.jar</arg>
+                <arg>$USER_HOME$/AppData/Local/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
               </args>
             </stringArg>
             <stringArg name="destination" arg="$MODULE_DIR$/../../../app/build/tmp/kotlin-classes/debugAndroidTest" />

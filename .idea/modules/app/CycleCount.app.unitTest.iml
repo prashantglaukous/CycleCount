@@ -161,8 +161,8 @@
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/85f21106fb21d395adbf1ccab552368b/transformed/jetified-jsr305-3.0.2.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/081eae9ca9f0b86c823d6dd4a61c0791/transformed/jetified-gson-2.8.5.jar</arg>
                 <arg>$USER_HOME$/.gradle/caches/transforms-3/b8a42ae82adc72082426f310d65217ae/transformed/jetified-json-20090211.jar</arg>
-                <arg>C:/AndroidResource/Sdk/platforms/android-UpsideDownCake/android.jar</arg>
-                <arg>C:/AndroidResource/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
+                <arg>$USER_HOME$/AppData/Local/Android/Sdk/platforms/android-UpsideDownCake/android.jar</arg>
+                <arg>$USER_HOME$/AppData/Local/Android/Sdk/build-tools/30.0.3/core-lambda-stubs.jar</arg>
               </args>
             </stringArg>
             <stringArg name="destination" arg="$MODULE_DIR$/../../../app/build/tmp/kotlin-classes/debugUnitTest" />

@@ -12,6 +12,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
 import com.glaukous.databinding.ActivityMainBinding
+import com.glaukous.extensions.showToast
 import com.glaukous.interfaces.Navigator
 import com.glaukous.views.home.Home.Companion.barcode
 import com.glaukous.views.input.Input.Companion.inputCode
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     lateinit var binding: ActivityMainBinding
     val mainVM: MainVM by viewModels()
+
     companion object {
         lateinit var context: WeakReference<Context>
         lateinit var navigator: Navigator
@@ -159,15 +161,17 @@ class MainActivity : AppCompatActivity(), Navigator {
                 mainVM.keyEvent = event.keyCode.takeIf { it != 0 } ?: 2
                 when (mainVM.navController.currentDestination?.id) {
                     R.id.home -> {
-                        if (barcode != null) {
+                        if (barcode != null && mainVM.isDataAvailableInHome.get() == true) {
                             barcode?.barcode(barcodes.trim())
                             barcodes = ""
+                        } else {
+                            "You don't have any task".showToast()
                         }
 
                     }
 
                     R.id.input -> {
-                        if (inputCode != null) {
+                        if (inputCode != null && mainVM.isDataAvailableInHome.get() == true) {
                             inputCode?.barcode(barcodes.trim())
                             barcodes = ""
                         }
@@ -191,7 +195,7 @@ class MainActivity : AppCompatActivity(), Navigator {
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 mainVM.keyEvent = keyCode
-                if (mainVM.isDataAvailableInHome.get()==true) {
+                if (mainVM.isDataAvailableInHome.get() == true) {
                     when (mainVM.navController.currentDestination?.id) {
                         R.id.home -> barcode?.navigateToScanner()
                         R.id.input -> inputCode?.navigateToScanner()
@@ -200,7 +204,7 @@ class MainActivity : AppCompatActivity(), Navigator {
                             AudioManager.FLAG_SHOW_UI
                         )
                     }
-                }else{
+                } else {
                     audioManager.adjustVolume(
                         AudioManager.ADJUST_LOWER,
                         AudioManager.FLAG_SHOW_UI
@@ -225,20 +229,20 @@ class MainActivity : AppCompatActivity(), Navigator {
                 mainVM.keyEvent = keyCode
                 when (mainVM.navController.currentDestination?.id) {
                     R.id.home -> {
-                        if (barcode != null) {
+                        if (barcode != null&&mainVM.isDataAvailableInHome.get()==true) {
                             barcode?.barcode(barcodes.trim())
                             barcodes = ""
+                        } else {
+                            "You don't have any task".showToast()
                         }
 
                     }
-
                     R.id.input -> {
                         if (inputCode != null) {
                             inputCode?.barcode(barcodes.trim())
                             barcodes = ""
                         }
                     }
-
                     else -> {
                         barcodes = ""
                     }
