@@ -2,6 +2,7 @@ package com.glaukous.views.home
 
 import android.view.View
 import androidx.databinding.ObservableField
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.navigation.findNavController
@@ -38,6 +39,7 @@ class HomeVM @Inject constructor(
     val floor = ObservableField("")
     val cycleCountId = ObservableField(0)
     val itemRecyclerView = RecyclerAdapter<Items>(R.layout.item_card)
+    val isDataAvailable=MutableLiveData(true)
 
     init {
         itemRecyclerView.setOnItemClick { view, _, position ->
@@ -102,19 +104,23 @@ class HomeVM @Inject constructor(
             override fun onResponse(res: Response<JsonElement>) {
                 if (res.isSuccessful && res.body() != null) {
                     jsonElementToData<PickerResponse>(res.body()) {
-                        jsonStringToData<PickerItemData>(it.data) { pickerItemData ->
-                            isDataLoaded.set(true)
-                            date.set(pickerItemData.dateOfCreation?.getUtcToLocalFormat())
-                            floor.set(pickerItemData.floor ?: "")
-                            cycleCountId.set(pickerItemData.cycleCountId)
-                            pickerItemData.items?.let { items ->
-                                itemRecyclerView.addItems(
-                                    items
-                                )
-                            }
+                        if (it.data!=null){
+                            jsonStringToData<PickerItemData>(it.data) { pickerItemData ->
+                                isDataLoaded.set(true)
+                                date.set(pickerItemData.dateOfCreation?.getUtcToLocalFormat())
+                                floor.set(pickerItemData.floor ?: "")
+                                cycleCountId.set(pickerItemData.cycleCountId)
+                                pickerItemData.items?.let { items ->
+                                    itemRecyclerView.addItems(
+                                        items
+                                    )
+                                }
 
+                            }
+                        }else{
+                            "No data available!".showToast()
+                            isDataAvailable.value=false
                         }
-//                        it.message?.showToast()
                     }
                 }
 

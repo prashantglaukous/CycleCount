@@ -28,8 +28,6 @@ class MainActivity : AppCompatActivity(), Navigator {
 
     lateinit var binding: ActivityMainBinding
     val mainVM: MainVM by viewModels()
-
-
     companion object {
         lateinit var context: WeakReference<Context>
         lateinit var navigator: Navigator
@@ -193,10 +191,17 @@ class MainActivity : AppCompatActivity(), Navigator {
         when (keyCode) {
             KeyEvent.KEYCODE_VOLUME_DOWN -> {
                 mainVM.keyEvent = keyCode
-                when (mainVM.navController.currentDestination?.id) {
-                    R.id.home -> barcode?.navigateToScanner()
-                    R.id.input -> inputCode?.navigateToScanner()
-                    else -> audioManager.adjustVolume(
+                if (mainVM.isDataAvailableInHome.get()==true) {
+                    when (mainVM.navController.currentDestination?.id) {
+                        R.id.home -> barcode?.navigateToScanner()
+                        R.id.input -> inputCode?.navigateToScanner()
+                        else -> audioManager.adjustVolume(
+                            AudioManager.ADJUST_LOWER,
+                            AudioManager.FLAG_SHOW_UI
+                        )
+                    }
+                }else{
+                    audioManager.adjustVolume(
                         AudioManager.ADJUST_LOWER,
                         AudioManager.FLAG_SHOW_UI
                     )

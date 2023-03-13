@@ -48,6 +48,10 @@ class Home : Fragment(), Barcode {
             viewModel.getCycleCountByPicker()
             binding?.swipe?.isRefreshing = false
         }
+
+        viewModel.isDataAvailable.observe(viewLifecycleOwner){
+            mainVM.isDataAvailableInHome.set(it)
+        }
         return binding?.root
     }
 

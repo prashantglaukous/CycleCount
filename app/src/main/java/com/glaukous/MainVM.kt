@@ -24,6 +24,7 @@ class MainVM @Inject constructor(
     lateinit var navController: NavController
     val showAppBar = ObservableField(true)
     val isHome = ObservableField(false)
+    val isDataAvailableInHome = ObservableField(true)
     var keyEvent = 0
 
     init {
