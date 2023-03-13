@@ -42,10 +42,33 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/_10sdp"
-                android:text="@{model.itemBarCode}"
+                android:text="@{model.itemCode}"
                 app:layout_constraintBottom_toBottomOf="@+id/item_code"
                 app:layout_constraintStart_toEndOf="@id/item_code"
                 app:layout_constraintTop_toTopOf="@+id/item_code"
+                tools:text="45" />
+
+            <TextView
+                android:id="@+id/itemBarCode"
+                style="@style/HeadingTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/_10sdp"
+                android:text="@string/item_bar_code"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/item_code"/>
+
+            <TextView
+                android:id="@+id/itemBarCodeValue"
+                style="@style/NormalTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="@dimen/_10sdp"
+                android:text="@{model.itemBarCode}"
+                app:layout_constraintBottom_toBottomOf="@+id/itemBarCode"
+                app:layout_constraintStart_toEndOf="@id/itemBarCode"
+                app:layout_constraintTop_toTopOf="@+id/itemBarCode"
                 tools:text="45" />
 
             <TextView
@@ -58,7 +81,7 @@
                 android:text="@string/quantity"
                 android:textSize="16sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/item_code" />
+                app:layout_constraintTop_toBottomOf="@id/itemBarCode" />
 
             <TextView
                 android:id="@+id/tvQuantity"

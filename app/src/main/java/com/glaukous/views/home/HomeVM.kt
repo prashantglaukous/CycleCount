@@ -139,6 +139,7 @@ class HomeVM @Inject constructor(
                 override fun onResponse(res: Response<JsonElement>) {
                     if (res.isSuccessful && res.body() != null) {
                         jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
+                            "This item has ${verifiedItem.completedCount} quantity.".showToast()
                             if (verifiedItem.isVerified == true) {
                                 if (view?.findNavController()?.currentDestination?.id == R.id.home) {
                                     view.findNavController().navigate(
