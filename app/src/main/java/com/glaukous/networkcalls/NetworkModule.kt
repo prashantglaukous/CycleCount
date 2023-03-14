@@ -1,5 +1,6 @@
 package com.glaukous.networkcalls
 
+import com.glaukous.BuildConfig
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 //import com.glaukous.BuildConfig
 import dagger.Module
@@ -28,16 +29,15 @@ class NetworkModule {
     fun cacheUtil() = CacheUtil<String, Response<Any>>()
 
     @Provides
-    fun provideBaseUrl() = BASE_URL/*_CLIENT*/
-
+    fun provideBaseUrl() = if(BuildConfig.DEBUG)BASE_URL else BASE_URL_CLIENT
 
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient  {
+    fun provideOkHttpClient(): OkHttpClient {
         val loggingInterceptor = HttpLoggingInterceptor()
         loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY)
-        return OkHttpClient . Builder ()
+        return OkHttpClient.Builder()
             .readTimeout(1, TimeUnit.MINUTES)
             .connectTimeout(1, TimeUnit.MINUTES)
             .addInterceptor(loggingInterceptor)

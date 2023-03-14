@@ -79,11 +79,6 @@ class Scanner : Fragment() {
                     it.setAnalyzer(
                         cameraExecutor,
                         QrCodeAnalyzer(onBarCodeScannerSuccess = { data ->
-                            val quantity = 3.takeIf {
-                                data.trim().startsWith("NBR") || data.trim().startsWith(
-                                    "IBR"
-                                )
-                            } ?: 1
                             //it.clearAnalyzer()
                             //cameraProvider.unbindAll()
                             Log.e("Scanner", "Scanner Success: Data -> $data")
@@ -96,15 +91,33 @@ class Scanner : Fragment() {
                                             viewModel.navigateToInput(
                                                 it1,
                                                 barcode = data.trim(),
-                                                quantity = quantity + args.quantity
+                                                quantity = (3.takeIf {
+                                                    args.itemCode.trim()
+                                                        .startsWith("NBR") || args.itemCode.trim()
+                                                        .startsWith(
+                                                            "IBR"
+                                                        )
+                                                } ?: 1) + args.quantity,
+                                                itemCode = args.itemCode
                                             )
                                         }
                                     } else {
-                                        viewModel.verifyItemCode(args.barcode?:"", view=binding,isADifferentCode = true,
-                                            quantity = args.quantity,newBarCode=data.trim())
+                                        viewModel.verifyItemCode(
+                                            args.barcode ?: "",
+                                            view = binding,
+                                            isADifferentCode = true,
+                                            quantity = args.quantity,
+                                            newBarCode = data.trim()
+                                        )
                                     }
                                 } else {
-                                    viewModel.verifyItemCode("", newBarCode=data.trim(),binding, isADifferentCode=false,args.quantity)
+                                    viewModel.verifyItemCode(
+                                        "",
+                                        newBarCode = data.trim(),
+                                        binding,
+                                        isADifferentCode = false,
+                                        args.quantity
+                                    )
                                 }
                             }
                         }, onBarCodeScannerFailed = { exception ->

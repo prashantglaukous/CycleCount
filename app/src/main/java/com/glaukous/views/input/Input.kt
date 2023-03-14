@@ -46,6 +46,7 @@ class Input : Fragment(), Barcode {
         if (!args.isADifferentCode) {
             viewModel.barcode.set(args.barcode.takeIf { it.isNotEmpty() } ?: args.newBarCode)
             viewModel.quantity.set(args.quantity)
+            viewModel.itemCode.set(args.itemCode)
             viewModel.date.set(args.date)
             viewModel.floor.set(args.floor)
             viewModel.cycleCountId.set(args.cycleCountId)
@@ -56,6 +57,7 @@ class Input : Fragment(), Barcode {
         hitResult.observe(viewLifecycleOwner) {
             if (it) {
                 viewModel.quantity.set(args.quantity)
+                viewModel.itemCode.set(args.itemCode)
                 viewModel.cycleCountId.set(args.cycleCountId)
                 viewModel.barcode.set(args.barcode)
                 viewModel.floor.set(args.floor)
@@ -84,7 +86,7 @@ class Input : Fragment(), Barcode {
         }
         ++count
         val increasedBy = 3.takeIf {
-            barCodeData.trim().startsWith("NBR") || barCodeData.trim().startsWith("IBR")
+            args.itemCode.trim().startsWith("NBR") || args.itemCode.trim().startsWith("IBR")
         } ?: 1/*.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0*/
 
 //        if (count / 2 == 1) {
@@ -134,7 +136,8 @@ class Input : Fragment(), Barcode {
                         quantity = viewModel.quantity.get() ?: 0,
                         floor = viewModel.floor.get(),
                         date = viewModel.date.get(),
-                        cycleCountId = viewModel.cycleCountId.get() ?: 0
+                        cycleCountId = viewModel.cycleCountId.get() ?: 0,
+                        itemCode = viewModel.itemCode.get()?:""
                     )
                 )
         }

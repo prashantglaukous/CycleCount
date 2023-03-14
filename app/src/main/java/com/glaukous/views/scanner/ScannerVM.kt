@@ -31,14 +31,15 @@ class ScannerVM @Inject constructor(
     val floor = ObservableField("")
 
 
-    fun navigateToInput(view: View, barcode: String, quantity: Int) {
+    fun navigateToInput(view: View, barcode: String, quantity: Int,itemCode:String) {
         view.findNavController().navigate(
             ScannerDirections.actionScannerToInput(
                 barcode = barcode,
                 quantity = quantity,
                 floor = floor.get() ?: "",
                 date = date.get() ?: "",
-                cycleCountId = cycleCountId.get() ?: 0
+                cycleCountId = cycleCountId.get() ?: 0,
+                itemCode = itemCode
             )
         )
 
@@ -62,24 +63,23 @@ class ScannerVM @Inject constructor(
                     override fun onResponse(res: Response<JsonElement>) {
                         if (res.isSuccessful && res.body() != null) {
                             jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
+                                val takeQuantity=3.takeIf {
+                                    (verifiedItem.itemCode?:"").trim().startsWith("NBR")
+                                            || (verifiedItem.itemCode?:"").trim().startsWith("IBR")
+                                } ?: 1
                                 if (verifiedItem.isVerified == true) {
                                     view?.root?.findNavController()?.navigate(
                                         ScannerDirections.actionScannerToInput(
                                             newBarCode = newBarCode,
                                             barcode = itemCode.trim(),
+                                            itemCode=verifiedItem.itemCode?:"",
                                             isADifferentCode = isADifferentCode,
                                             quantity = quantity.takeIf { it > 0 } ?: verifiedItem.completedCount.takeIf {
                                                 (it ?: 0) > 0
-                                            } ?: 3.takeIf {
-                                                itemCode.trim().startsWith("NBR")
-                                                        || itemCode.trim().startsWith("IBR")
-                                            } ?: 1,
+                                            } ?: takeQuantity,
                                             newItemQuantity = verifiedItem.completedCount.takeIf {
                                                 (it ?: 0) > 0
-                                            } ?: 3.takeIf {
-                                                itemCode.trim().startsWith("NBR")
-                                                        || itemCode.trim().startsWith("IBR")
-                                            } ?: 1,
+                                            } ?:takeQuantity,
                                             floor = floor.get() ?: "",
                                             date = date.get() ?: "",
                                             cycleCountId = cycleCountId.get() ?: 0))

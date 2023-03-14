@@ -49,7 +49,7 @@ class Home : Fragment(), Barcode {
             binding?.swipe?.isRefreshing = false
         }
 
-        viewModel.isDataAvailable.observe(viewLifecycleOwner){
+        viewModel.isDataAvailable.observe(viewLifecycleOwner) {
             mainVM.isDataAvailableInHome.set(it)
         }
         return binding?.root

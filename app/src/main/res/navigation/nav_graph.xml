@@ -83,6 +83,10 @@
             android:name="cycleCountId"
             app:argType="integer"
             android:defaultValue="0" />
+        <argument
+            android:name="itemCode"
+            app:argType="string"
+            android:defaultValue="" />
     </fragment>
     <fragment
         android:id="@+id/input"
@@ -123,6 +127,10 @@
             android:defaultValue="false" />
         <argument
             android:name="newBarCode"
+            app:argType="string"
+            android:defaultValue="" />
+        <argument
+            android:name="itemCode"
             app:argType="string"
             android:defaultValue="" />
     </fragment>

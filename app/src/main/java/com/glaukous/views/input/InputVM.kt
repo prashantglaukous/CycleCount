@@ -36,6 +36,7 @@ class InputVM @Inject constructor(
 
     val cycleCountId = ObservableField(0)
     val barcode = ObservableField("")
+    val itemCode = ObservableField("")
     val quantity = ObservableField(1)
     val floor = ObservableField("")
     val date = ObservableField("")
@@ -62,7 +63,8 @@ class InputVM @Inject constructor(
                     quantity = quantity.get() ?: 0,
                     floor = floor.get(),
                     date = date.get(),
-                    cycleCountId = cycleCountId.get() ?: 0
+                    cycleCountId = cycleCountId.get() ?: 0,
+                    itemCode = itemCode.get() ?: ""
                 )
             )
 
@@ -73,7 +75,13 @@ class InputVM @Inject constructor(
         }
     }
 
-    fun submitCount(view: View, args: InputArgs?, verify: Boolean, barCodeData: String, count:Int=0) {
+    fun submitCount(
+        view: View,
+        args: InputArgs?,
+        verify: Boolean,
+        barCodeData: String,
+        count: Int = 0
+    ) {
         repository.makeCall(
             loader = true,
             requestProcessor = object : ApiProcessor<Response<ResponseBody>> {
@@ -125,7 +133,7 @@ class InputVM @Inject constructor(
 
     fun verifyItemCode(
         itemCode: String,
-        onVerify: (String, Int) -> Unit = { code, Quantity -> }
+        onVerify: (String, Int) -> Unit = { _, _ -> }
     ) =
         viewModelScope.launch {
             repository.makeCall(
@@ -139,8 +147,10 @@ class InputVM @Inject constructor(
                         if (res.isSuccessful && res.body() != null) {
                             jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
                                 if (verifiedItem.isVerified == true) {
-                                    onVerify(itemCode,verifiedItem.completedCount?.takeIf { it >= 1 }
-                                        ?: 1)
+                                    onVerify(
+                                        itemCode,
+                                        verifiedItem.completedCount?.takeIf { it >= 1 }
+                                            ?: 1)
                                 }
                                 verifiedItem.successMessage?.showToast()
                             }

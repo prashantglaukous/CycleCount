@@ -48,6 +48,7 @@ class HomeVM @Inject constructor(
                     view.findNavController().navigate(
                         HomeDirections.actionHomeToInput(
                             barcode = itemRecyclerView.getItemAt(position).itemBarCode ?: "",
+                            itemCode= itemRecyclerView.getItemAt(position).itemCode ?: "",
                             quantity = itemRecyclerView.getItemAt(position).quantityCount ?: 1,
                             date = date.get() ?: "",
                             floor = floor.get() ?: "",
@@ -124,12 +125,12 @@ class HomeVM @Inject constructor(
         })
     }
 
-    fun verifyItemCode(itemCode: String, view: View?) = viewModelScope.launch {
+    fun verifyItemCode(itemBarCode: String, view: View?) = viewModelScope.launch {
         repository.makeCall(
             loader = true,
             requestProcessor = object : ApiProcessor<Response<JsonElement>> {
                 override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
-                    return retrofitApi.verifyItem(repository.authToken, itemCode)
+                    return retrofitApi.verifyItem(repository.authToken, itemBarCode)
                 }
 
                 override fun onResponse(res: Response<JsonElement>) {
@@ -139,12 +140,13 @@ class HomeVM @Inject constructor(
                                 if (view?.findNavController()?.currentDestination?.id == R.id.home) {
                                     view.findNavController().navigate(
                                         HomeDirections.actionHomeToInput(
-                                            barcode = itemCode.trim(),
+                                            barcode = itemBarCode.trim(),
+                                            itemCode=verifiedItem.itemCode?:"",
                                             quantity = verifiedItem.completedCount.takeIf {
                                                 (it ?: 0) > 0
                                             } ?: 3.takeIf {
-                                                itemCode.trim().startsWith("NBR")
-                                                        || itemCode.trim().startsWith("IBR")
+                                                (verifiedItem.itemCode?:"").trim().startsWith("NBR")
+                                                        || (verifiedItem.itemCode?:"").trim().startsWith("IBR")
                                             } ?: 1,
                                             date = date.get() ?: "",
                                             floor = floor.get() ?: "",

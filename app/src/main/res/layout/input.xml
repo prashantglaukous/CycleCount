@@ -81,9 +81,8 @@
                         app:layout_constraintStart_toEndOf="@id/tvFloor"
                         app:layout_constraintTop_toTopOf="@id/tvFloor" />
 
-
                     <TextView
-                        android:id="@+id/tvBarCode"
+                        android:id="@+id/tvItemCode"
                         style="@style/HeadingTextStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -92,6 +91,29 @@
                         android:textSize="14sp"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/tvFloor" />
+
+                    <TextView
+                        android:id="@+id/tvItemCodeValue"
+                        style="@style/NormalTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:text="@{viewModel.itemCode}"
+                        android:textSize="14sp"
+                        app:layout_constraintBottom_toBottomOf="@id/tvItemCode"
+                        app:layout_constraintStart_toEndOf="@id/tvItemCode"
+                        app:layout_constraintTop_toTopOf="@id/tvItemCode" />
+
+                    <TextView
+                        android:id="@+id/tvBarCode"
+                        style="@style/HeadingTextStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="@string/item_bar_code"
+                        android:textSize="14sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/tvItemCode" />
 
                     <TextView
                         android:id="@+id/tvBarCodeValue"
@@ -152,8 +174,8 @@
                         android:textSize="50sp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        tools:text="01"
-                        app:layout_constraintTop_toBottomOf="@+id/tvQuantityHead" />
+                        app:layout_constraintTop_toBottomOf="@+id/tvQuantityHead"
+                        tools:text="01" />
 
                     <ImageView
                         android:id="@+id/ivMinus"
@@ -166,16 +188,16 @@
                         app:layout_constraintHorizontal_bias="0.5"
                         app:layout_constraintStart_toStartOf="@+id/tvQuantity"
                         app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
-<!--
-                        android:onClick="@{viewModel::onClick}"-->
+                    <!--
+                                            android:onClick="@{viewModel::onClick}"-->
                     <ImageView
                         android:id="@+id/ivPlus"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginHorizontal="@dimen/_20sdp"
                         android:layout_marginTop="15dp"
-                        android:src="@drawable/ic_plus"
                         android:onClick="@{viewModel::onClick}"
+                        android:src="@drawable/ic_plus"
                         app:layout_constraintEnd_toEndOf="@+id/tvQuantity"
                         app:layout_constraintStart_toEndOf="@+id/ivMinus"
                         app:layout_constraintTop_toBottomOf="@+id/tvQuantity" />
@@ -189,13 +211,13 @@
                 style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/red"
-                android:text="@string/cancel"
-                android:onClick="@{viewModel::onClick}"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnDone"
                 android:layout_marginTop="@dimen/_15sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
+                android:backgroundTint="@color/red"
+                android:onClick="@{viewModel::onClick}"
+                android:text="@string/cancel"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnDone"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/cardCounter" />
 
@@ -204,10 +226,10 @@
                 style="@style/ButtonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/done"
                 android:layout_marginStart="@dimen/_15sdp"
-                android:onClick="@{viewModel::onClick}"
                 android:layout_marginTop="@dimen/_15sdp"
+                android:onClick="@{viewModel::onClick}"
+                android:text="@string/done"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"

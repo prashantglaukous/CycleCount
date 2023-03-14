@@ -1,13 +1,13 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.fragment:fragment-ktx:1.5.5@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5a0e572873ad028f1d7e2a29a94a0237/transformed/jetified-fragment-ktx-1.5.5/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/5a0e572873ad028f1d7e2a29a94a0237/transformed/jetified-fragment-ktx-1.5.5/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/5a0e572873ad028f1d7e2a29a94a0237/transformed/jetified-fragment-ktx-1.5.5/res" />
+      <root url="jar://$USER_HOME$/Desktop/Practice Projects/FoodDelivery/Food_Delivery/.gradle/7.5/caches/transforms-3/5a0e572873ad028f1d7e2a29a94a0237/transformed/jetified-fragment-ktx-1.5.5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/Desktop/Practice Projects/FoodDelivery/Food_Delivery/.gradle/7.5/caches/transforms-3/5a0e572873ad028f1d7e2a29a94a0237/transformed/jetified-fragment-ktx-1.5.5/res" />
+      <root url="file://$USER_HOME$/Desktop/Practice Projects/FoodDelivery/Food_Delivery/.gradle/7.5/caches/transforms-3/5a0e572873ad028f1d7e2a29a94a0237/transformed/jetified-fragment-ktx-1.5.5/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.fragment/fragment-ktx/1.5.5/656ee3b3618f377f8671e3a678a0fce0c8f56b1e/fragment-ktx-1.5.5-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/Practice Projects/FoodDelivery/Food_Delivery/.gradle/7.5/caches/modules-2/files-2.1/androidx.fragment/fragment-ktx/1.5.5/656ee3b3618f377f8671e3a678a0fce0c8f56b1e/fragment-ktx-1.5.5-sources.jar!/" />
     </SOURCES>
   </library>
 </component>

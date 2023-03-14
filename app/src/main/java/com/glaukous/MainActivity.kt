@@ -229,7 +229,7 @@ class MainActivity : AppCompatActivity(), Navigator {
                 mainVM.keyEvent = keyCode
                 when (mainVM.navController.currentDestination?.id) {
                     R.id.home -> {
-                        if (barcode != null&&mainVM.isDataAvailableInHome.get()==true) {
+                        if (barcode != null && mainVM.isDataAvailableInHome.get() == true) {
                             barcode?.barcode(barcodes.trim())
                             barcodes = ""
                         } else {

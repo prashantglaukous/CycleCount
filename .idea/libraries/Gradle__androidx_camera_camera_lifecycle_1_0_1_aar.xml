@@ -1,12 +1,12 @@
 <component name="libraryTable">
   <library name="Gradle: androidx.camera:camera-lifecycle:1.0.1@aar">
     <CLASSES>
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-3/a8945999ef4e79c5faef41fecf09b9fd/transformed/jetified-camera-lifecycle-1.0.1/AndroidManifest.xml" />
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-3/a8945999ef4e79c5faef41fecf09b9fd/transformed/jetified-camera-lifecycle-1.0.1/jars/classes.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/Practice Projects/FoodDelivery/Food_Delivery/.gradle/7.5/caches/transforms-3/a8945999ef4e79c5faef41fecf09b9fd/transformed/jetified-camera-lifecycle-1.0.1/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/Desktop/Practice Projects/FoodDelivery/Food_Delivery/.gradle/7.5/caches/transforms-3/a8945999ef4e79c5faef41fecf09b9fd/transformed/jetified-camera-lifecycle-1.0.1/AndroidManifest.xml" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>
-      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/androidx.camera/camera-lifecycle/1.0.1/f71daf6982e489ab25e2bdafbe4bd4e6155fd6f0/camera-lifecycle-1.0.1-sources.jar!/" />
+      <root url="jar://$USER_HOME$/Desktop/Practice Projects/FoodDelivery/Food_Delivery/.gradle/7.5/caches/modules-2/files-2.1/androidx.camera/camera-lifecycle/1.0.1/f71daf6982e489ab25e2bdafbe4bd4e6155fd6f0/camera-lifecycle-1.0.1-sources.jar!/" />
     </SOURCES>
   </library>
 </component>
