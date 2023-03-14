@@ -68,12 +68,12 @@ class InputVM @Inject constructor(
 
             R.id.btnDone -> {
                 done = true
-                submitCount(view, null)
+                submitCount(view, null, verify = false, "")
             }
         }
     }
 
-    fun submitCount(view: View, args: InputArgs?) {
+    fun submitCount(view: View, args: InputArgs?, verify: Boolean, barCodeData: String, count:Int=0) {
         repository.makeCall(
             loader = true,
             requestProcessor = object : ApiProcessor<Response<ResponseBody>> {
@@ -101,12 +101,16 @@ class InputVM @Inject constructor(
                             (context.get() as MainActivity).barcodes = ""
                             (context.get() as MainActivity).mainVM.keyEvent = 0
                         }
-                        if (args!=null){
+                        if (args != null) {
                             barcode.set(args.newBarCode)
                             date.set(args.date)
                             floor.set(args.floor)
                             cycleCountId.set(args.cycleCountId)
                             quantity.set(args.newItemQuantity)
+                            if (verify) {
+                                barcode.set(barCodeData.trim())
+                                quantity.set(count)
+                            }
                         }
                     }
                     res.body()?.string().let { it?.showToast() }
@@ -119,36 +123,38 @@ class InputVM @Inject constructor(
             })
     }
 
-    fun verifyItemCode(itemCode: String, view: View) = viewModelScope.launch {
-        repository.makeCall(
-            loader = true,
-            requestProcessor = object : ApiProcessor<Response<JsonElement>> {
-                override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
-                    return retrofitApi.verifyItem(repository.authToken, itemCode)
-                }
+    fun verifyItemCode(
+        itemCode: String,
+        onVerify: (String, Int) -> Unit = { code, Quantity -> }
+    ) =
+        viewModelScope.launch {
+            repository.makeCall(
+                loader = true,
+                requestProcessor = object : ApiProcessor<Response<JsonElement>> {
+                    override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
+                        return retrofitApi.verifyItem(repository.authToken, itemCode)
+                    }
 
-                override fun onResponse(res: Response<JsonElement>) {
-                    if (res.isSuccessful && res.body() != null) {
-                        jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
-                            "This item has ${verifiedItem.completedCount} quantity.".showToast()
-                            if (verifiedItem.isVerified == true) {
-                                barcode.set(itemCode)
-                                quantity.set(verifiedItem.completedCount?.takeIf { it >= 1 } ?: 1)
-                            } else {
-                                view.findNavController().popBackStack()
+                    override fun onResponse(res: Response<JsonElement>) {
+                        if (res.isSuccessful && res.body() != null) {
+                            jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
+                                if (verifiedItem.isVerified == true) {
+                                    onVerify(itemCode,verifiedItem.completedCount?.takeIf { it >= 1 }
+                                        ?: 1)
+                                }
+                                verifiedItem.successMessage?.showToast()
                             }
-                            verifiedItem.successMessage?.showToast()
+
                         }
 
                     }
 
-                }
+                    override fun onError(message: String, responseCode: Int) {
+                        super.onError(message, responseCode)
+                        message.showToast()
+                    }
+                })
+        }
 
-                override fun onError(message: String, responseCode: Int) {
-                    super.onError(message, responseCode)
-                    message.showToast()
-                    view.findNavController().popBackStack()
-                }
-            })
-    }
+
 }

@@ -28,7 +28,7 @@ class NetworkModule {
     fun cacheUtil() = CacheUtil<String, Response<Any>>()
 
     @Provides
-    fun provideBaseUrl() = BASE_URL_CLIENT
+    fun provideBaseUrl() = BASE_URL/*_CLIENT*/
 
 
 

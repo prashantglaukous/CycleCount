@@ -17,7 +17,6 @@ import com.glaukous.MainActivity
 import com.glaukous.MainVM
 import com.glaukous.R
 import com.glaukous.databinding.InputBinding
-import com.glaukous.extensions.showToast
 import com.glaukous.interfaces.Barcode
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -30,9 +29,7 @@ class Input : Fragment(), Barcode {
     private val viewModel by viewModels<InputVM>()
     private val args by navArgs<InputArgs>()
     private val mainVM by activityViewModels<MainVM>()
-    private val hitResult= MutableLiveData<Boolean>()
-    /*private val handler = Handler(Looper.getMainLooper())
-    private lateinit var runnable: Runnable*/
+    private val hitResult = MutableLiveData<Boolean>()
 
     companion object {
         var inputCode: Barcode? = null
@@ -46,24 +43,23 @@ class Input : Fragment(), Barcode {
         binding = InputBinding.inflate(layoutInflater, container, false)
         binding?.viewModel = viewModel
         inputCode = this
-        if (!args.isADifferentCode){
-            viewModel.barcode.set(args.barcode)
+        if (!args.isADifferentCode) {
+            viewModel.barcode.set(args.barcode.takeIf { it.isNotEmpty() } ?: args.newBarCode)
             viewModel.quantity.set(args.quantity)
             viewModel.date.set(args.date)
             viewModel.floor.set(args.floor)
             viewModel.cycleCountId.set(args.cycleCountId)
-        }else{
-
-            hitResult.value=args.isADifferentCode
+        } else {
+            hitResult.value = args.isADifferentCode
         }
 
-        hitResult.observe(viewLifecycleOwner){
-            if (it){
+        hitResult.observe(viewLifecycleOwner) {
+            if (it) {
                 viewModel.quantity.set(args.quantity)
                 viewModel.cycleCountId.set(args.cycleCountId)
                 viewModel.barcode.set(args.barcode)
                 viewModel.floor.set(args.floor)
-                viewModel.submitCount(binding?.root!!, args)
+                viewModel.submitCount(binding?.root!!, args, verify = false, "")
             }
         }
         decreasePress()
@@ -89,8 +85,7 @@ class Input : Fragment(), Barcode {
         ++count
         val increasedBy = 3.takeIf {
             barCodeData.trim().startsWith("NBR") || barCodeData.trim().startsWith("IBR")
-        }
-            ?: 1.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0
+        } ?: 1/*.takeIf { barCodeData.trim().equals(args.barcode, true) } ?: 0*/
 
 //        if (count / 2 == 1) {
         try {
@@ -101,11 +96,19 @@ class Input : Fragment(), Barcode {
                         ?.plus(increasedBy) ?: 0
                 )
             } else {
-                count = 0
-                "Code doesn't match".showToast(requireContext())
+                updateButton()
+//                "Code doesn't match".showToast(requireContext())
                 viewLifecycleOwner.lifecycleScope.launch {
-                    viewModel.submitCount(binding?.root!!, args)
-                    viewModel.verifyItemCode(barCodeData.trim(),binding?.root!!)
+                    viewModel.verifyItemCode(barcode) { code, count ->
+                        viewModel.submitCount(
+                            view = binding?.root!!,
+                            args = args,
+                            verify = true,
+                            barCodeData = code,
+                            count = count
+                        )
+                    }
+
                 }
             }
 
@@ -129,9 +132,9 @@ class Input : Fragment(), Barcode {
                     InputDirections.actionInputToScanner(
                         barcode = viewModel.barcode.get(),
                         quantity = viewModel.quantity.get() ?: 0,
-                        floor = args.floor,
-                        date = args.date,
-                        cycleCountId = args.cycleCountId
+                        floor = viewModel.floor.get(),
+                        date = viewModel.date.get(),
+                        cycleCountId = viewModel.cycleCountId.get() ?: 0
                     )
                 )
         }

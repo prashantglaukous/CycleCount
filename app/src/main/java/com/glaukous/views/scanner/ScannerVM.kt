@@ -56,7 +56,7 @@ class ScannerVM @Inject constructor(
                 loader = true,
                 requestProcessor = object : ApiProcessor<Response<JsonElement>> {
                     override suspend fun sendRequest(retrofitApi: RetrofitApi): Response<JsonElement> {
-                        return retrofitApi.verifyItem(repository.authToken, itemCode)
+                        return retrofitApi.verifyItem(repository.authToken, newBarCode)
                     }
 
                     override fun onResponse(res: Response<JsonElement>) {
@@ -86,7 +86,7 @@ class ScannerVM @Inject constructor(
                                 } else {
                                     view?.root?.findNavController()?.popBackStack()
                                 }
-//                                verifiedItem.successMessage?.showToast()
+                                verifiedItem.successMessage?.showToast()
                             }
 
                         }

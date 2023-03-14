@@ -78,17 +78,7 @@ class HomeVM @Inject constructor(
                     (context.get() as MainActivity).barcodes = ""
                     (context.get() as MainActivity).mainVM.keyEvent = 0
                 }
-            } /*{
-                view.findNavController().navigate(
-                    HomeDirections.actionHomeToInput(
-                        barcode = "CFCF240814",
-                        quantity = 1000063,
-                        date = "16-02-2023",
-                        floor = "GF",
-                        cycleCountId = 16
-                    ))
-            }*/
-
+            }
         }
     }
 
@@ -145,7 +135,6 @@ class HomeVM @Inject constructor(
                 override fun onResponse(res: Response<JsonElement>) {
                     if (res.isSuccessful && res.body() != null) {
                         jsonElementToData<VerifyItem>(res.body()) { verifiedItem ->
-                            "This item has ${verifiedItem.completedCount} quantity.".showToast()
                             if (verifiedItem.isVerified == true) {
                                 if (view?.findNavController()?.currentDestination?.id == R.id.home) {
                                     view.findNavController().navigate(

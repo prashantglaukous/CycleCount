@@ -100,12 +100,11 @@ class Scanner : Fragment() {
                                             )
                                         }
                                     } else {
-                                        "Code doesn't match".showToast()
                                         viewModel.verifyItemCode(args.barcode?:"", view=binding,isADifferentCode = true,
                                             quantity = args.quantity,newBarCode=data.trim())
                                     }
                                 } else {
-                                    viewModel.verifyItemCode(data.trim(), "",binding, isADifferentCode=false,args.quantity)
+                                    viewModel.verifyItemCode("", newBarCode=data.trim(),binding, isADifferentCode=false,args.quantity)
                                 }
                             }
                         }, onBarCodeScannerFailed = { exception ->
